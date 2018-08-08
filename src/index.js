@@ -3,6 +3,7 @@ import { render } from 'react-dom'
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
+//------------------------
 
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 
