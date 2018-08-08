@@ -1,0 +1,14 @@
+.submitbtn {
+    margin-left: 46%;
+}
+.workType-width {
+    width:90px;
+    text-align: center;
+}
+.leftShift {
+    transform: rotate(180deg);
+    text-align: center;
+}
+th, td {
+    text-align: center;
+}
