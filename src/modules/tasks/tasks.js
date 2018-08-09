@@ -37,16 +37,20 @@ class Tasks extends React.Component {
     componentDidMount() {
         this.props.getData();
     }
-    componentWillReceiveProps(){
-        this.props.getData();
-    }
+    // componentWillReceiveProps(){
+    //     this.props.getData();
+    // }
 
     openDialog = () => this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false })
 
+    editData = '';
     openEditDialog = (row) => {
+        this.editData = '';
         this.setState({ isEditDialogOpen: true, isShowPage: false, isDialogOpen: false });
-        console.log(row.id);
-    }
+        this.editData = row;
+        console.log(this.editData);
+        taskNameAlert = false; taskDescAlert = false; showDelAlert = false; delSuccessAlert = false; 
+        }
 
     handleClose = () => this.setState({ isDialogOpen: false, isShowPage: true, isEditDialogOpen: false })
 
@@ -270,18 +274,18 @@ class Tasks extends React.Component {
                                     descInput.value = trim(descInput.value);
 
                                     if (taskNameInput.value == '' && descInput.value != '') {
-                                        datas = { taskId: this.editData.taskId, taskName: this.editData.taskName, taskDescription: descInput.value, userId: this.editData.userId }
+                                        datas = { taskId: this.editData.taskId, taskName: this.editData.taskName, taskDescription: descInput.value, userId: userData.id }
                                     }
                                     else if (descInput.value == '' && taskNameInput.value != '') {
-                                        datas = { taskId: this.editData.taskId, taskName: taskNameInput.value, taskDescription: this.editData.taskDescription, userId: this.editData.userId }
+                                        datas = { taskId: this.editData.taskId, taskName: taskNameInput.value, taskDescription: this.editData.taskDescription, userId: userData.id }
                                     }
                                     else if (descInput.value == '' && taskNameInput.value == '') {
-                                        datas = { taskId: this.editData.taskId, taskName: this.editData.taskName, taskDescription: this.editData.taskDescription, userId: this.editData.userId }
+                                        datas = { taskId: this.editData.taskId, taskName: this.editData.taskName, taskDescription: this.editData.taskDescription, userId: userData.id }
                                     }
                                     else {
-                                        datas = { taskId: this.editData.taskId, taskName: taskNameInput.value, taskDescription: descInput.value, userId: this.editData.userId }
+                                        datas = { taskId: this.editData.taskId, taskName: taskNameInput.value, taskDescription: descInput.value, userId: userData.id }
                                     }
-
+                                    console.log(datas);
                                     editSubmit(datas);
                                     this.handleClose();
                                 }

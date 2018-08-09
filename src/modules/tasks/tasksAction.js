@@ -142,7 +142,7 @@ export function requestFetch() {
 export function getAllData() {
     return dispatch => {
 
-        dispatch(requestFetch())
+        // dispatch(requestFetch())
 
         return getApi({
             url: '/ahits/api/tasks/all',
