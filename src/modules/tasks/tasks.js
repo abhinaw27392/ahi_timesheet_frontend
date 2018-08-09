@@ -136,7 +136,7 @@ class Tasks extends React.Component {
                             {taskData != null &&
                                 this.state.isShowPage &&
                                 <div className="panel panel-blur">
-                                    <Table responsive bordered condensed hover className="">
+                                    <Table responsive bordered condensed hover className="">    
                                         <thead>
                                             {
                                                 <tr>
@@ -151,7 +151,7 @@ class Tasks extends React.Component {
                                             {taskData.map((row) => {
                                                 // console.log("row_id:" + row.taskId);
                                                 return <tr className="test">
-                                                    <td><Checkbox name={row.taskId} onChange={this.handleInputChange}></Checkbox></td>
+                                                    <td><Checkbox name={row.taskId} value = "false" onChange={this.handleInputChange}></Checkbox></td>
                                                     <td><a onClick={() => this.openEditDialog(row)} title="Edit your task">{row.taskName}</a></td>
                                                     <td>{row.taskDescription}</td>
                                                 </tr>
