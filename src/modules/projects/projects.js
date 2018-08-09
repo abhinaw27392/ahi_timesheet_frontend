@@ -156,7 +156,7 @@ class Projects extends React.Component {
                                     {projectData.map((row) => {
                                         // console.log("row_id:" + row.projectId);
                                         return <tr className="test">
-                                            <td><Checkbox name={row.projectId} onChange={this.handleInputChange}></Checkbox></td>
+                                            <td><Checkbox name={row.projectId} value = "false" onChange={this.handleInputChange}></Checkbox></td>
                                             <td><a onClick={() => this.openEditDialog(row)} title="Edit your project">{row.projectName}</a></td>
                                             <td>{row.projectDescription}</td>
                                             <td>{row.headedBy}</td>

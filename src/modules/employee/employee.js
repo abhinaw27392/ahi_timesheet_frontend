@@ -204,7 +204,7 @@ class Employee extends React.Component {
                                         {usersData.map((row) => {
                                             {/* {userdata.map((row) => { */ }
                                             return <tr className="test">
-                                                <td><Checkbox name={row.id} onChange={this.handleInputChange}></Checkbox></td>
+                                                <td><Checkbox name={row.id} value = "false" onChange={this.handleInputChange}></Checkbox></td>
                                                 <td><a style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => this.openEditDialog(row)} title="Edit employee info">{row.loginId}</a></td>
                                                 <td>{row.firstName}</td>
                                                 <td>{row.lastName}</td>

@@ -165,7 +165,7 @@ class Department extends React.Component {
                                         {departmentData.map((row) => {
                                             // console.log("row_id:" + row.departmentId);
                                             return <tr className="test">
-                                                <td><Checkbox name={row.departmentId} onChange={this.handleInputChange}></Checkbox></td>
+                                                <td><Checkbox name={row.departmentId} value = "false" onChange={this.handleInputChange}></Checkbox></td>
                                                 <td><a onClick={() => this.openEditDialog(row)} title="Edit your department">{row.departmentName}</a></td>
                                                 <td>{row.departmentDescription}</td>
                                                 <td>{row.headedBy}</td>
