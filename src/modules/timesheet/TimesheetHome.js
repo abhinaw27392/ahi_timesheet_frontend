@@ -20,7 +20,6 @@ import './timesheet.css'
 
 let dateDatas = displayDates();
 
-//-----------------------------------------------------------------------------------------------
 
 // let inputRefs = {
 //   project: [],
@@ -71,12 +70,22 @@ class TimeSheet extends React.Component {
     ]
     let disableField = false;
     let i = 6;
-    let j = 1;
+
+    let projectNameInput = ''; let taskNameInput = ''; let tempArr = []; let ctr = 0;
     return (
       <Form className="ahi-timesheet-form" onSubmit={(e) => {
         e.preventDefault();
-        inputRefs.data.length = 0;
+        inputRefs.data.length = 0; ctr = 0;
+
+        items1.projectName = projectNameInput.value;
+        items1.taskName = taskNameInput.value;
+        type1.map((name) => {
+          items1[name] = tempArr[ctr++].value;
+        })
+
         inputRefs.data.push(items1);
+        // console.log("inputRefs is:")
+        // console.log(JSON.stringify(inputRefs));
         handleSubmit(inputRefs);
         disableField = true;
       }
@@ -105,13 +114,11 @@ class TimeSheet extends React.Component {
               <td>
                 <FormControl componentClass="select" placeholder="select" inputRef={
                   (ref) => {
-                    if (ref != null)
-                      // inputRefs.timesheetData.push({ projectInput1: ref.value });
-                      if(ref.value != 'select') {
-                        items1.projectName = ref.value;
-                      console.log("projectName is:"+items1.projectName);
-                      }
-                      
+                    if (ref != null) {
+                      projectNameInput = ref;
+                      // console.log("projectName is:" + items1.projectName);
+                    }
+
                   }
                 }>
                   <option value="select" >select</option>
@@ -127,7 +134,7 @@ class TimeSheet extends React.Component {
                   (ref) => {
                     if (ref != null)
                       // inputRefs.timesheetData.push({ taskInput1: ref.value });
-                      items1.taskName = ref.value;
+                      taskNameInput = ref;
                   }
                 }>
                   <option value="select" >select</option>
@@ -147,9 +154,9 @@ class TimeSheet extends React.Component {
                       <FormControl type="number"
                         inputRef={(ref) => {
                           if (ref != null) {
-                            // inputRefs.timesheetData.push({ [name]: ref.value });
-
-                            items1[name] = ref.value;
+                            // console.log("ref value is:" + ref.value);
+                            tempArr.push(ref);
+                            // items1[name] = ref.value;
                           }
                         }}
                       />

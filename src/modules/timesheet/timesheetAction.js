@@ -31,48 +31,50 @@ export function submitError(message) {
         errorMessage: message
     }
 }
+function timesheetSingleRowSubmit(data) {
+    console.log("timesheetSingleRowSubmit is executing");
+    return dispatch => {
+        // dispatch(requestFormData(formData))
+        return postApi({
+            url: '/ahits/api/timesheet/',
+            dispatch,
+            data,
+            successCallBack: receiveFormData,
+            failureCallback: submitError
+        });
+    }
+}
 
 export function timesheetSubmit(formData) {
+    let i = 0; 
+    for (i = 0; i < 7; i++) {
+        let data = {}
+        formData.data.map((fdata) => {
+            data.id = null;
+            data.projectName = fdata.projectName;
+            data.taskName = fdata.taskName;
+            data.date = fdata["date" + i];
+            data.totalHours = fdata["a" + i];
+            data.empId = "2";       //----------------------------------------hardcoded----------------------
+        });
 
-    // let data =[];
-    // data.push(formData.data[0]);
-    // console.log("printing the datadddd " + JSON.stringify(data));
-  
-    console.log("submitted formdata is:");
-    console.log(formData.data);
-    console.log("projectName is:")
-    console.log(formData.data[0].projectName);
-    // let data = {}
-    // formData.data.map((fdata) => {
-    //     data.id = null;
-    //     data.projectName = fdata.projectName;
-    //     data.taskName = fdata.taskName;
-    //     data.date = fdata.date0;
-    //     data.totalHours = fdata.a0;
-    // });
+        console.log("data" + i + " is:");
+        console.log(data);
 
-    // console.log("data is:");
-    // console.log(data);
-
-    // let data = {
-    //     'id': null,
-    //     'projectName': formData.projectName,
-    //     'taskName': formData.taskName,
-    //     'date': formData.date,
-    //     'hours': formData.hours,
-    //     'empId': formData.empId
-    // }
-
-    return dispatch => {
-        dispatch(requestFormData(formData))
-        // return postApi({
-        //     url: '/timesheet/formsubmitted',
-        //     dispatch,
-        //     data,
-        //     successCallBack: receiveFormData,
-        //     failureCallback: submitError
-        // });
+        timesheetSingleRowSubmit(data);
+        // return dispatch => {
+        //     dispatch(requestFormData(formData))
+        //     return postApi({
+        //         url: '/ahits/api/timesheet/',
+        //         dispatch,
+        //         data,
+        //         successCallBack: receiveFormData,
+        //         failureCallback: submitError
+        //     });
+        // }
     }
+
+
 }
 
 export function displayDates() {
