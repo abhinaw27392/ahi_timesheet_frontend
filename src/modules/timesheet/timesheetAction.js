@@ -33,21 +33,45 @@ export function submitError(message) {
 }
 
 export function timesheetSubmit(formData) {
-    let data = new FormData();
 
-    data.append('name1', formData.name1);
-    data.append('name2', formData.name2);
+    // let data =[];
+    // data.push(formData.data[0]);
+    // console.log("printing the datadddd " + JSON.stringify(data));
+  
+    console.log("submitted formdata is:");
+    console.log(formData.data);
+    console.log("projectName is:")
+    console.log(formData.data[0].projectName);
+    // let data = {}
+    // formData.data.map((fdata) => {
+    //     data.id = null;
+    //     data.projectName = fdata.projectName;
+    //     data.taskName = fdata.taskName;
+    //     data.date = fdata.date0;
+    //     data.totalHours = fdata.a0;
+    // });
+
+    // console.log("data is:");
+    // console.log(data);
+
+    // let data = {
+    //     'id': null,
+    //     'projectName': formData.projectName,
+    //     'taskName': formData.taskName,
+    //     'date': formData.date,
+    //     'hours': formData.hours,
+    //     'empId': formData.empId
+    // }
 
     return dispatch => {
         dispatch(requestFormData(formData))
-
-        return postApi({
-            url: '/timesheet/formsubmitted',
-            dispatch,
-            data,
-            successCallBack: receiveFormData,
-            failureCallback: submitError
-        });
+        // return postApi({
+        //     url: '/timesheet/formsubmitted',
+        //     dispatch,
+        //     data,
+        //     successCallBack: receiveFormData,
+        //     failureCallback: submitError
+        // });
     }
 }
 

@@ -30,9 +30,10 @@ let dateDatas = displayDates();
 // };
 
 let inputRefs = {
-  timesheetData: []
+  data: []
 }
 
+let items1 = {};
 
 class TimeSheet extends React.Component {
 
@@ -67,14 +68,15 @@ class TimeSheet extends React.Component {
     }
     ]
     let disableField = false;
+    let i = 6;
+    let j = 1;
     return (
       <Form className="ahi-timesheet-form" onSubmit={(e) => {
         e.preventDefault();
+        inputRefs.data.length = 0;
+        inputRefs.data.push(items1);
         handleSubmit(inputRefs);
         disableField = true;
-
-        inputRefs.timesheetData.length = 0;
-        // inputRefs.task.length = 0;
       }
       }>
         <FormGroup >
@@ -88,6 +90,8 @@ class TimeSheet extends React.Component {
               <th >Project</th>
               <th >TaskName</th>
               {dateDatas.map(function (date) {
+                items1["date" + i] = date;
+                i--;
                 return <th ><Time value={date} format="DD-MMM-YY" className="workType-width" /></th>
               })}
               <th><button className="btn btn-primary" >>>></button></th>
@@ -99,9 +103,13 @@ class TimeSheet extends React.Component {
               <td>
                 <FormControl componentClass="select" placeholder="select" inputRef={
                   (ref) => {
-                    inputRefs.timesheetData.length = 0
                     if (ref != null)
-                      inputRefs.timesheetData.push({ projectInput1: ref.value });
+                      // inputRefs.timesheetData.push({ projectInput1: ref.value });
+                      if(ref.value != 'select') {
+                        items1.projectName = ref.value;
+                      console.log("projectName is:"+items1.projectName);
+                      }
+                      
                   }
                 }>
                   <option value="select" >select</option>
@@ -116,7 +124,8 @@ class TimeSheet extends React.Component {
                 <FormControl componentClass="select" placeholder="select" inputRef={
                   (ref) => {
                     if (ref != null)
-                      inputRefs.timesheetData.push({ taskInput1: ref.value });
+                      // inputRefs.timesheetData.push({ taskInput1: ref.value });
+                      items1.taskName = ref.value;
                   }
                 }>
                   <option value="select" >select</option>
@@ -129,13 +138,16 @@ class TimeSheet extends React.Component {
               </td>
               {
                 type1.map(function (name) {
+
                   return <td >
                     <FormGroup>
                       {/* <FormControl type="number" placeholder={submittedData.type1[name.slice(1)][name]}  //------------placeholder for editted data---- */}
                       <FormControl type="number"
                         inputRef={(ref) => {
                           if (ref != null) {
-                            inputRefs.timesheetData.push({ [name]: ref.value })
+                            // inputRefs.timesheetData.push({ [name]: ref.value });
+
+                            items1[name] = ref.value;
                           }
                         }}
                       />
@@ -145,7 +157,7 @@ class TimeSheet extends React.Component {
                 }
                 )}
             </tr>
-          
+
 
           </tbody>
 
