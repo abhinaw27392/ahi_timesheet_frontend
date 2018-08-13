@@ -71,19 +71,21 @@ class TimeSheet extends React.Component {
     let disableField = false;
     let i = 6;
 
-    let projectNameInput = ''; let taskNameInput = ''; let tempArr = []; let ctr = 0;
+    let projectNameInput = ''; let taskNameInput = ''; let tempArr = []; let ctr1 = 0;
     return (
       <Form className="ahi-timesheet-form" onSubmit={(e) => {
         e.preventDefault();
-        inputRefs.data.length = 0; ctr = 0;
+        inputRefs.data.length = 0; ctr1 = 0;
 
         items1.projectName = projectNameInput.value;
         items1.taskName = taskNameInput.value;
         type1.map((name) => {
-          items1[name] = tempArr[ctr++].value;
+          items1[name] = tempArr[ctr1++].value;
         })
 
         inputRefs.data.push(items1);
+        // inputRefs.data.push(items2);
+
         // console.log("inputRefs is:")
         // console.log(JSON.stringify(inputRefs));
         handleSubmit(inputRefs);
@@ -97,7 +99,7 @@ class TimeSheet extends React.Component {
         <Table responsive bordered condensed hover type="number">
           <thead>
             <tr>
-              <th><button className="leftShift btn btn-primary" onClick={displayDates} >>>></button></th>
+              <th><button className="leftShift btn btn-primary" type = "button" onClick={displayDates} >>>></button></th>
               <th >Project</th>
               <th >TaskName</th>
               {dateDatas.map(function (date) {
@@ -151,11 +153,12 @@ class TimeSheet extends React.Component {
                   return <td >
                     <FormGroup>
                       {/* <FormControl type="number" placeholder={submittedData.type1[name.slice(1)][name]}  //------------placeholder for editted data---- */}
-                      <FormControl type="number"
+                      <FormControl type="number" name = {name}
                         inputRef={(ref) => {
                           if (ref != null) {
                             // console.log("ref value is:" + ref.value);
                             tempArr.push(ref);
+                            // inputRefs.type1.push({ [name]: ref.value })
                             // items1[name] = ref.value;
                           }
                         }}
