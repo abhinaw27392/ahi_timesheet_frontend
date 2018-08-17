@@ -3,7 +3,9 @@ import { postApi1 } from "../common/api"
 export let dates = []; export let prevDay = "";
 export let type1 = []; export let type2 = []; export let type3 = [];
 export let type4 = []; export let type5 = [];
-export let ctr = 0;
+export let ctr = 0; 
+export let rowCountArr = [];
+export let rowCount = 0;
 
 export const FORM_REQUEST = 'FORM_REQUEST_TS'
 export const FORM_SUBMITTED = 'FORM_SUBMITTED_TS'
@@ -79,5 +81,18 @@ export function displayNextDates() {
     console.log(type1);
     console.log(dates);
     return dates;
+}
+
+export function addrowToTable() {
+    rowCount++;
+    rowCountArr.push(rowCount);
+    console.log(rowCountArr);
+    return rowCountArr;
+}
+
+export function remomeRowFromTable() {
+    rowCountArr.pop();
+    rowCount--;
+    return rowCountArr;
 }
 

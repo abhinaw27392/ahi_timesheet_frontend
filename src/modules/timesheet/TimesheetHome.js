@@ -12,13 +12,14 @@ import Time from 'react-time'
 
 //import local
 import { getPropsMap } from './timesheetReducer'
-import { displayDates, timesheetSubmit, displayNextDates } from './timesheetAction'
+import { displayDates, timesheetSubmit, displayNextDates, addrowToTable, remomeRowFromTable } from './timesheetAction'
 import { type1, type2, type3, type4, type5, ctr } from './timesheetAction'
 
 //import css
 import './timesheet.css'
 
 let dateDatas = displayDates();
+let addRow = addrowToTable();
 
 let inputRefs = {
   data: []
@@ -32,6 +33,18 @@ class TimeSheet extends React.Component {
     super(props);
     this.prevDate = this.prevDate.bind(this);
     this.nextDate = this.nextDate.bind(this);
+    this.getNewRow = this.getNewRow.bind(this);
+    this.reduceOneRow = this.reduceOneRow.bind(this);
+  }
+
+  getNewRow() {
+    addRow = addrowToTable();
+    this.forceUpdate();
+  }
+
+  reduceOneRow() {
+    addRow = remomeRowFromTable();
+    this.forceUpdate();
   }
 
   prevDate() {
@@ -45,11 +58,11 @@ class TimeSheet extends React.Component {
       dateDatas = displayDates();
       this.forceUpdate();
     }
-    
+
   }
 
   nextDate() {
-    
+
     if (ctr < 14) {
       disable1 = true;
       this.forceUpdate();
@@ -59,7 +72,7 @@ class TimeSheet extends React.Component {
       dateDatas = displayNextDates();
       this.forceUpdate();
     }
-      
+
   }
 
   render() {
@@ -145,72 +158,88 @@ class TimeSheet extends React.Component {
                 i--;
                 return <th ><Time value={date} format="DD-MMM-YY" className="workType-width" /></th>
               })}
-              <th><button className="btn btn-primary" type = "button" disabled={disable1} onClick={this.nextDate} >>>></button></th>
+              <th><button className="btn btn-primary" type="button" disabled={disable1} onClick={this.nextDate} >>>></button></th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td></td>
-              <td>
-                <FormControl componentClass="select" placeholder="select" inputRef={
-                  (ref) => {
-                    if (ref != null) {
-                      projectNameInput = ref;
-                      // console.log("projectName is:" + items1.projectName);
+            {addRow.map((rowcount) => {
+              console.log("rowcount is:" + rowcount);
+              return <tr>
+                <td>
+                  {rowcount == addRow.length &&
+                    <button type="button" className="btn btn-info" onClick={this.getNewRow} >+</button>
+                  }
+
+                </td>
+                <td>
+                  <FormControl componentClass="select" placeholder="select" inputRef={
+                    (ref) => {
+                      if (ref != null) {
+                        projectNameInput = ref;
+                        // console.log("projectName is:" + items1.projectName);
+                      }
+
+                    }
+                  }>
+                    <option value="select" >select</option>
+                    {projectData.map(res => {
+                      return <option value={res.projectName}>{res.projectName}</option>
+                    })
                     }
 
-                  }
-                }>
-                  <option value="select" >select</option>
-                  {projectData.map(res => {
-                    return <option value={res.projectName}>{res.projectName}</option>
-                  })
-                  }
+                  </FormControl>
+                </td>
+                <td>
+                  <FormControl componentClass="select" placeholder="select" inputRef={
+                    (ref) => {
+                      if (ref != null)
+                        // inputRefs.timesheetData.push({ taskInput1: ref.value });
+                        taskNameInput = ref;
+                    }
+                  }>
+                    <option value="select" >select</option>
+                    {taskData.map(res => {
+                      return <option value={res.taskName}>{res.taskName}</option>
+                    })
+                    }
 
-                </FormControl>
-              </td>
-              <td>
-                <FormControl componentClass="select" placeholder="select" inputRef={
-                  (ref) => {
-                    if (ref != null)
-                      // inputRefs.timesheetData.push({ taskInput1: ref.value });
-                      taskNameInput = ref;
-                  }
-                }>
-                  <option value="select" >select</option>
-                  {taskData.map(res => {
-                    return <option value={res.taskName}>{res.taskName}</option>
-                  })
-                  }
+                  </FormControl>
+                </td>
+                
+                {
+                  type1.map(function (name) {
 
-                </FormControl>
-              </td>
-              {
-                type1.map(function (name) {
+                    return <td >
+                      <FormGroup>
+                        {/* <FormControl type="number" placeholder={submittedData.type1[name.slice(1)][name]}  //------------placeholder for editted data---- */}
+                        <FormControl type="number" name={name}
+                          inputRef={(ref) => {
+                            if (ref != null) {
+                              tempArr.push(ref);
+                            }
+                          }}
+                        />
+                        <FormControl.Feedback />
+                      </FormGroup>
+                    </td>
+                  }
+                  )}
+                <td>
+                  {rowcount == addRow.length && rowcount > 1 &&
+                    <button type="button" className="btn btn-danger" onClick={this.reduceOneRow} >-</button>
+                  }
+                </td>
+              </tr>
+            })
 
-                  return <td >
-                    <FormGroup>
-                      {/* <FormControl type="number" placeholder={submittedData.type1[name.slice(1)][name]}  //------------placeholder for editted data---- */}
-                      <FormControl type="number" name={name}
-                        inputRef={(ref) => {
-                          if (ref != null) {
-                            tempArr.push(ref);
-                          }
-                        }}
-                      />
-                      <FormControl.Feedback />
-                    </FormGroup>
-                  </td>
-                }
-                )}
-            </tr>
+            }
 
 
           </tbody>
 
         </Table> <br />
         <FormGroup>
-          <button type="submit" className="btn btn-primary submitbtn" disabled={disableField}>Submit</button>&nbsp;&nbsp;
+          <button type="submit" className="btn btn-primary submitbtn">Submit</button>&nbsp;&nbsp;
           {/* <button type="button" className="btn btn-primary" >Edit</button> */}
         </FormGroup>
       </Form >
