@@ -12,7 +12,7 @@ import Time from 'react-time'
 
 //import local
 import { getPropsMap } from './timesheetReducer'
-import { displayDates, timesheetSubmit } from './timesheetAction'
+import { displayDates, timesheetSubmit, displayNextDates } from './timesheetAction'
 import { type1, type2, type3, type4, type5, ctr } from './timesheetAction'
 
 //import css
@@ -20,24 +20,47 @@ import './timesheet.css'
 
 let dateDatas = displayDates();
 
-
-// let inputRefs = {
-//   project: [],
-//   task: [],
-//   type1: [],
-//   date:[],
-//   hours:[],
-//   empId: ""
-// };
-
 let inputRefs = {
   data: []
 }
 
 let items1 = {};
-
+let disable = false; let disable1 = false;
 class TimeSheet extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.prevDate = this.prevDate.bind(this);
+    this.nextDate = this.nextDate.bind(this);
+  }
+
+  prevDate() {
+
+    if (ctr > 20) {
+      disable = true;
+      this.forceUpdate();
+    }
+    if (ctr <= 20) {
+      disable1 = false;
+      dateDatas = displayDates();
+      this.forceUpdate();
+    }
+    
+  }
+
+  nextDate() {
+    
+    if (ctr < 14) {
+      disable1 = true;
+      this.forceUpdate();
+    }
+    if (ctr >= 14) {
+      disable = false;
+      dateDatas = displayNextDates();
+      this.forceUpdate();
+    }
+      
+  }
 
   render() {
     const { handleSubmit, errorMessage } = this.props;
@@ -71,25 +94,40 @@ class TimeSheet extends React.Component {
     let disableField = false;
     let i = 6;
 
+
     let projectNameInput = ''; let taskNameInput = ''; let tempArr = []; let ctr1 = 0;
     return (
       <Form className="ahi-timesheet-form" onSubmit={(e) => {
         e.preventDefault();
-        inputRefs.data.length = 0; ctr1 = 0;
+        inputRefs.data.length = 0; ctr1 = 0; let fieldName = [];
 
         items1.projectName = projectNameInput.value;
         items1.taskName = taskNameInput.value;
         type1.map((name) => {
           items1[name] = tempArr[ctr1++].value;
+          fieldName.push(name);
         })
 
         inputRefs.data.push(items1);
-        // inputRefs.data.push(items2);
+        //---------------------------------array manipulation for data submission--------------------------------
+        let dataArr = []; let i = 0;
 
-        // console.log("inputRefs is:")
-        // console.log(JSON.stringify(inputRefs));
-        handleSubmit(inputRefs);
-        disableField = true;
+        for (i = 0; i < 7; i++) {
+          let data = {}
+          inputRefs.data.map((fdata) => {
+            data.id = null;
+            data.projectName = fdata.projectName;
+            data.taskName = fdata.taskName;
+            data.date = fdata["date" + i];
+            data.totalHours = fdata[fieldName[fieldName.length - i - 1]];
+            data.empId = "2";       //----------------------------------------hardcoded----------------------
+            dataArr.push(data);
+          });
+
+        }
+        //-----------------------------------------------------------------------------
+
+        handleSubmit(dataArr);
       }
       }>
         <FormGroup >
@@ -99,7 +137,7 @@ class TimeSheet extends React.Component {
         <Table responsive bordered condensed hover type="number">
           <thead>
             <tr>
-              <th><button className="leftShift btn btn-primary" type = "button" onClick={displayDates} >>>></button></th>
+              <th><button className="leftShift btn btn-primary" type="button" disabled={disable} onClick={this.prevDate} >>>></button></th>
               <th >Project</th>
               <th >TaskName</th>
               {dateDatas.map(function (date) {
@@ -107,7 +145,7 @@ class TimeSheet extends React.Component {
                 i--;
                 return <th ><Time value={date} format="DD-MMM-YY" className="workType-width" /></th>
               })}
-              <th><button className="btn btn-primary" >>>></button></th>
+              <th><button className="btn btn-primary" type = "button" disabled={disable1} onClick={this.nextDate} >>>></button></th>
             </tr>
           </thead>
           <tbody>
@@ -153,13 +191,10 @@ class TimeSheet extends React.Component {
                   return <td >
                     <FormGroup>
                       {/* <FormControl type="number" placeholder={submittedData.type1[name.slice(1)][name]}  //------------placeholder for editted data---- */}
-                      <FormControl type="number" name = {name}
+                      <FormControl type="number" name={name}
                         inputRef={(ref) => {
                           if (ref != null) {
-                            // console.log("ref value is:" + ref.value);
                             tempArr.push(ref);
-                            // inputRefs.type1.push({ [name]: ref.value })
-                            // items1[name] = ref.value;
                           }
                         }}
                       />

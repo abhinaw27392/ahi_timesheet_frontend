@@ -25,21 +25,23 @@ let checkBoxArr = []; let taskNameAlert = false; let taskDescAlert = false; let 
 class Tasks extends React.Component {
     constructor(props) {
         super(props);
+        this.forceUpdate = this.forceUpdate.bind(this);
         this.state = {
             
             isDialogOpen: false,
             isEditDialogOpen: false,
             isShowPage: true,
     
-        }
+        };
+
 
     }
     componentDidMount() {
         this.props.getData();
     }
-    componentWillReceiveProps(){
-        this.props.getData();
-    }
+    // componentWillReceiveProps(){
+    //     this.props.getData();
+    // }
 
     openDialog = () => this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false })
 

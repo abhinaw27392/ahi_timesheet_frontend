@@ -31,69 +31,20 @@ export function submitError(message) {
         errorMessage: message
     }
 }
-// function timesheetSingleRowSubmit(data) {
-//     console.log("timesheetSingleRowSubmit is executing");
-//     return dispatch => {
-//         // dispatch(requestFormData(formData))
-//         return postApi({
-//             url: '/ahits/api/timesheet/',
-//             dispatch,
-//             data,
-//             successCallBack: receiveFormData,
-//             failureCallback: submitError
-//         });
-//     }
-// }
 
 export function timesheetSubmit(formData) {
-    let i = 0; let dataArr = [];let dataSend = ""; let dataSend1 = null;
+    console.log("formdata is:")
+    console.log(formData);
 
-    for (i = 0; i < 7; i++) {
-        let data = {}
-        formData.data.map((fdata) => {
-            data.id = null;
-            data.projectName = fdata.projectName;
-            data.taskName = fdata.taskName;
-            data.date = fdata["date" + i];
-            data.totalHours = fdata["a" + i];
-            data.empId = "2";       //----------------------------------------hardcoded----------------------
-            dataArr.push(data);
-        });
-
-    }
-    // dataSend = JSON.stringify(dataArr);
-    // dataSend = [{
-    //     "id":null,
-    //     "empId": 2,
-    //     "projectName": "hghg",
-    //     "date": null,
-    //     "taskName": "task2",
-    //     "totalHours": 41},
-    //     {
-    //     "id":null,
-    //     "empId": 5,
-    //     "projectName": "hello2",
-    //     "date": null,
-    //     "taskName": "task3",
-    //     "totalHours": 3
-    // }];
-    
-    
     return dispatch => {
-        console.log(dataArr);
-        // dispatch(requestFormData(formData))
         return postApi1({
             url: '/ahits/api/timesheet/',
-
             dispatch,
-            data: JSON.stringify(dataArr),
+            data: JSON.stringify(formData),
             successCallBack: receiveFormData,
             failureCallback: submitError
         });
     }
-
-
-
 }
 
 export function displayDates() {
@@ -109,6 +60,24 @@ export function displayDates() {
         }
     }
     console.log(type1);
+    console.log(dates);
+    return dates;
+}
+
+export function displayNextDates() {
+    dates.length = 0; ctr = ctr - 14;
+    type1 = []; type2 = []; type3 = []; type4 = []; type5 = [];
+    let j = ctr;
+    if (ctr <= 20) {
+        for (let i = j + 6; i >= j; i--) {
+            prevDay = new Date(new Date().setDate(new Date().getDate() - i));
+            dates.push(prevDay);
+            type1.push("a" + i); type2.push("b" + i); type3.push("c" + i); type4.push("d" + i); type5.push("e" + i);
+            ctr++;
+        }
+    }
+    console.log(type1);
+    console.log(dates);
     return dates;
 }
 
