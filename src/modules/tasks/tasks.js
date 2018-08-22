@@ -39,9 +39,9 @@ class Tasks extends React.Component {
     componentDidMount() {
         this.props.getData();
     }
-    // componentWillReceiveProps(){
-    //     this.props.getData();
-    // }
+    componentWillReceiveProps(){
+        this.props.getData();
+    }
 
     openDialog = () => this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false })
 

@@ -3,7 +3,7 @@ import { postApi1 } from "../common/api"
 export let dates = []; export let prevDay = "";
 export let type1 = []; export let type2 = []; export let type3 = [];
 export let type4 = []; export let type5 = [];
-export let ctr = 0; 
+export let ctr = 0;
 export let rowCountArr = [];
 export let rowCount = 0;
 
@@ -61,32 +61,33 @@ export function displayDates() {
             ctr++;
         }
     }
-    console.log(type1);
-    console.log(dates);
+    // console.log(type1);
+    // console.log(dates);
     return dates;
 }
 
 export function displayNextDates() {
     dates.length = 0; ctr = ctr - 14;
-    type1 = []; type2 = []; type3 = []; type4 = []; type5 = [];
+    type1 = []; 
     let j = ctr;
     if (ctr <= 20) {
         for (let i = j + 6; i >= j; i--) {
             prevDay = new Date(new Date().setDate(new Date().getDate() - i));
             dates.push(prevDay);
-            type1.push("a" + i); type2.push("b" + i); type3.push("c" + i); type4.push("d" + i); type5.push("e" + i);
+            type1.push("a" + i); 
             ctr++;
         }
     }
-    console.log(type1);
-    console.log(dates);
+    // console.log(type1);
+    // console.log(dates);
     return dates;
 }
 
 export function addrowToTable() {
+
     rowCount++;
     rowCountArr.push(rowCount);
-    console.log(rowCountArr);
+    // console.log(rowCount);
     return rowCountArr;
 }
 
@@ -94,5 +95,11 @@ export function remomeRowFromTable() {
     rowCountArr.pop();
     rowCount--;
     return rowCountArr;
+}
+
+export function getRowTypes(type) {
+    let typenew = Array.from(type);
+    // console.log("get rowtypes array:" + typenew);
+    return typenew;
 }
 
