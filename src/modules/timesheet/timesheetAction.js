@@ -1,4 +1,4 @@
-import { postApi1 } from "../common/api"
+import { postApi1, getApi } from "../common/api"
 
 export let dates = []; export let prevDay = "";
 export let type1 = []; export let type2 = []; export let type3 = [];
@@ -10,6 +10,29 @@ export let rowCount = 0;
 export const FORM_REQUEST = 'FORM_REQUEST_TS'
 export const FORM_SUBMITTED = 'FORM_SUBMITTED_TS'
 export const SUBMIT_FAILURE = 'SUBMIT_FAILURE_TS'
+export const PROJECT_DATA_FETCH_FAILURE = 'PROJECT_DATA_FETCH_FAILURE';
+export const PROJECT_DATA_FETCH_SUCCESS = 'PROJECT_DATA_FETCH_SUCCESS';
+
+
+export function fetchError(message) {
+    return {
+        type: PROJECT_DATA_FETCH_FAILURE,
+        pending: false,
+        logged: false,
+        errorMessage: message
+    }
+}
+
+export function receiveFetch(projectData) {
+    console.log("projectdata is: " + JSON.stringify(projectData));
+
+    return {
+        type: PROJECT_DATA_FETCH_SUCCESS,
+        pending: false,
+        logged: true,
+        projectData
+    }
+}
 
 export function requestFormData(formData) {
     return {
@@ -68,13 +91,13 @@ export function displayDates() {
 
 export function displayNextDates() {
     dates.length = 0; ctr = ctr - 14;
-    type1 = []; 
+    type1 = [];
     let j = ctr;
     if (ctr <= 20) {
         for (let i = j + 6; i >= j; i--) {
             prevDay = new Date(new Date().setDate(new Date().getDate() - i));
             dates.push(prevDay);
-            type1.push("a" + i); 
+            type1.push("a" + i);
             ctr++;
         }
     }
@@ -103,3 +126,14 @@ export function getRowTypes(type) {
     return typenew;
 }
 
+export function getProjectData(empId) {
+    return dispatch => {
+        return getApi({
+            url: '/ahits/api/timesheet/projectData/?empId=' + empId,
+            dispatch,
+            successCallBack: receiveFetch,
+            failureCallback: fetchError
+        });
+
+    }
+}

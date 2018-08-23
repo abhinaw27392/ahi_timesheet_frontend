@@ -12,7 +12,7 @@ import Time from 'react-time'
 
 //import local
 import { getPropsMap } from './timesheetReducer'
-import { displayDates, timesheetSubmit, displayNextDates, addrowToTable, remomeRowFromTable, getRowTypes } from './timesheetAction'
+import { displayDates, timesheetSubmit, displayNextDates, addrowToTable, remomeRowFromTable, getRowTypes, getProjectData } from './timesheetAction'
 import { type1, type2, type3, type4, type5, ctr } from './timesheetAction'
 
 //import css
@@ -35,6 +35,8 @@ let inputRefs = {
 
 let items1 = {};
 let disable = false; let disable1 = false;
+
+
 class TimeSheet extends React.Component {
 
   constructor(props) {
@@ -44,6 +46,10 @@ class TimeSheet extends React.Component {
     this.getNewRow = this.getNewRow.bind(this);
     this.reduceOneRow = this.reduceOneRow.bind(this);
   }
+
+//   componentDidMount() {
+//     this.props.getProjectData("2");   //---------------------hardcoded empId-----------------
+// }
 
   getNewRow() {
     addRow = addrowToTable();
@@ -86,6 +92,10 @@ class TimeSheet extends React.Component {
 
   render() {
     const { handleSubmit, errorMessage } = this.props;
+
+    // console.log("projectData is:")
+    // console.log(projectData);
+
     let projectData = [{
       projectId: "1",
       projectName: "asset management"
@@ -94,6 +104,7 @@ class TimeSheet extends React.Component {
       projectId: "2",
       projectName: "time management"
     },
+
     {
       projectId: "3",
       projectName: "money management"
@@ -207,7 +218,8 @@ class TimeSheet extends React.Component {
                     }
                   }>
                     <option value="select" >select</option>
-                    {projectData.map(res => {
+                    { projectData != null &&
+                      projectData.map(res => {
                       return <option value={res.projectName}>{res.projectName}</option>
                     })
                     }
@@ -276,7 +288,7 @@ class TimeSheet extends React.Component {
 const mapStateToProps = state => {
   return getPropsMap(state, 'timesheet');
 }
-const TimesheetHome = connect(mapStateToProps, { handleSubmit: timesheetSubmit })(TimeSheet);
+const TimesheetHome = connect(mapStateToProps, { handleSubmit: timesheetSubmit, getProjectData: getProjectData })(TimeSheet);
 export default TimesheetHome;
 
 

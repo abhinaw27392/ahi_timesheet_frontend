@@ -1,4 +1,4 @@
-import { FORM_REQUEST, FORM_SUBMITTED, SUBMIT_FAILURE } from './timesheetAction'
+import { FORM_REQUEST, FORM_SUBMITTED, SUBMIT_FAILURE, PROJECT_DATA_FETCH_SUCCESS, PROJECT_DATA_FETCH_FAILURE } from './timesheetAction'
 import { combineReducers } from 'redux'
 
 const timesheet = (state = {
@@ -8,6 +8,8 @@ const timesheet = (state = {
         case FORM_REQUEST:
         case FORM_SUBMITTED:
         case SUBMIT_FAILURE:
+        case PROJECT_DATA_FETCH_SUCCESS:
+        case PROJECT_DATA_FETCH_FAILURE:
             return Object.assign({}, state, action)
         default:
             return state
