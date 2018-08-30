@@ -12,6 +12,8 @@ export const FORM_SUBMITTED = 'FORM_SUBMITTED_TS'
 export const SUBMIT_FAILURE = 'SUBMIT_FAILURE_TS'
 export const PROJECT_DATA_FETCH_FAILURE = 'PROJECT_DATA_FETCH_FAILURE';
 export const PROJECT_DATA_FETCH_SUCCESS = 'PROJECT_DATA_FETCH_SUCCESS';
+export const TIMESHEET_DATA_FETCH_SUCCESS = 'TIMESHEET_DATA_FETCH_SUCCESS';
+export const TIMESHEET_DATA_FETCH_FAILURE = 'TIMESHEET_DATA_FETCH_FAILURE';
 
 
 export function fetchError(message) {
@@ -63,7 +65,7 @@ export function timesheetSubmit(formData) {
 
     return dispatch => {
         return postApi1({
-            url: '/ahits/api/timesheet/',
+            url: 'http://localhost:6090/ahits/api/timesheet/',
             dispatch,
             data: JSON.stringify(formData),
             successCallBack: receiveFormData,
@@ -79,8 +81,10 @@ export function displayDates() {
     if (ctr <= 20) {
         for (let i = j + 6; i >= j; i--) {
             prevDay = new Date(new Date().setDate(new Date().getDate() - i));
+            // prevDay = prevDay.getDate() +"-"+prevDay.getMonth() + "-" + prevDay.getFullYear();
+            // console.log("prevDate:"+prevDay);
             dates.push(prevDay);
-            type1.push("a" + i); type2.push("b" + i); type3.push("c" + i); type4.push("d" + i); type5.push("e" + i);
+            type1.push("a" + i);
             ctr++;
         }
     }
@@ -129,11 +133,65 @@ export function getRowTypes(type) {
 export function getProjectData(empId) {
     return dispatch => {
         return getApi({
-            url: '/ahits/api/timesheet/projectData/?empId=' + empId,
+            url: 'http://localhost:6090/ahits/api/timesheet/projectData/?empId=' + empId,
             dispatch,
             successCallBack: receiveFetch,
             failureCallback: fetchError
         });
 
+    }
+}
+
+
+
+export function fetchDataError(message) {
+    return {
+        type: TIMESHEET_DATA_FETCH_FAILURE,
+        pending: false,
+        logged: false,
+        errorMessage: message
+    }
+}
+
+export function receiveAllData(timesheetData) {
+    // console.log("timesheetData is: " + JSON.stringify(timesheetData));
+
+    return {
+        type: TIMESHEET_DATA_FETCH_SUCCESS,
+        pending: false,
+        logged: true,
+        timesheetData: timesheetData
+    }
+}
+export function getAllData(empId, fromDate, toDate) {
+    return dispatch => {
+        return getApi({
+            url: "http://localhost:6090/ahits/api/timesheet/fetchData/" + empId + "?fromDate=" + fromDate + "&toDate=" + toDate,
+            dispatch,
+            successCallBack: getTimesheetData,
+            failureCallback: fetchDataError
+        });
+    }
+}
+export function getTimesheetData(timesheetData) {
+    console.log(timesheetData);
+    let myMap = new Map();
+    timesheetData.map((res) => {
+       let  timeSheetValues = [];
+        timeSheetValues = myMap.get(res.projectName + "-" + res.taskName);
+        if (timeSheetValues == null || timeSheetValues == undefined) {
+            timeSheetValues = [];
+        }
+        timeSheetValues.push({ "date": res.date, "value": res.totalHours });
+        myMap.set(res.projectName + "-" + res.taskName, timeSheetValues);
+    });
+    // console.log("myMap is:");
+    // console.log(myMap);
+    return {
+        type: TIMESHEET_DATA_FETCH_SUCCESS,
+        pending: false,
+        logged: true,
+        myMap: myMap,
+        timesheetData: timesheetData
     }
 }
