@@ -65,7 +65,7 @@ export function timesheetSubmit(formData) {
 
     return dispatch => {
         return postApi1({
-            url: 'http://localhost:6090/ahits/api/timesheet/',
+            url: '/ahits/api/timesheet/',
             dispatch,
             data: JSON.stringify(formData),
             successCallBack: receiveFormData,
@@ -133,7 +133,7 @@ export function getRowTypes(type) {
 export function getProjectData(empId) {
     return dispatch => {
         return getApi({
-            url: 'http://localhost:6090/ahits/api/timesheet/projectData/?empId=' + empId,
+            url: '/ahits/api/timesheet/projectData/?empId=' + empId,
             dispatch,
             successCallBack: receiveFetch,
             failureCallback: fetchError
@@ -166,7 +166,7 @@ export function receiveAllData(timesheetData) {
 export function getAllData(empId, fromDate, toDate) {
     return dispatch => {
         return getApi({
-            url: "http://localhost:6090/ahits/api/timesheet/fetchData/" + empId + "?fromDate=" + fromDate + "&toDate=" + toDate,
+            url: "/ahits/api/timesheet/fetchData/" + empId + "?fromDate=" + fromDate + "&toDate=" + toDate,
             dispatch,
             successCallBack: getTimesheetData,
             failureCallback: fetchDataError
@@ -185,13 +185,12 @@ export function getTimesheetData(timesheetData) {
         timeSheetValues.push({ "date": res.date, "value": res.totalHours });
         myMap.set(res.projectName + "-" + res.taskName, timeSheetValues);
     });
-    // console.log("myMap is:");
-    // console.log(myMap);
+    console.log("myMap is:");
+    console.log(myMap);
     return {
         type: TIMESHEET_DATA_FETCH_SUCCESS,
         pending: false,
         logged: true,
-        myMap: myMap,
-        timesheetData: timesheetData
+        myMap: myMap
     }
 }

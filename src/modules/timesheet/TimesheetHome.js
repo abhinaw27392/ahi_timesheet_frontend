@@ -8,7 +8,6 @@ import { connect } from 'react-redux'
 //import third-party 
 import { Alert, Form, FormControl, FormGroup, Table } from 'react-bootstrap'
 import Time from 'react-time'
-// import { Field, reduxForm } from 'redux-form';
 
 //import local
 import { getPropsMap } from './timesheetReducer'
@@ -17,6 +16,7 @@ import {
   remomeRowFromTable, getRowTypes, getProjectData
 } from './timesheetAction'
 import { type1, type2, type3, type4, type5, ctr } from './timesheetAction'
+// import {getAllUsers} from '../projects/projectsAction'
 
 //import css
 import './timesheet.css'
@@ -54,10 +54,8 @@ class TimeSheet extends React.Component {
   }
 
   componentWillReceiveProps() {
-    
-    // console.log("datearray in mount:");
-    // console.log(dateArr);
-   this.getDateRange();
+    // this.props.getUser();
+    this.getDateRange();
     this.props.getAllData('2', datefirst, datelast);
   }
 
@@ -81,7 +79,7 @@ class TimeSheet extends React.Component {
 
   reduceOneRow() {
     rowcount--;
-    console.log("reduce rowcount:"+rowcount);
+    console.log("reduce rowcount:" + rowcount);
     addRow = remomeRowFromTable();
     this.forceUpdate();
   }
@@ -90,7 +88,7 @@ class TimeSheet extends React.Component {
     // this.getDateRange();
     // this.props.getAllData('2', datefirst, datelast);
     dateArr.length = 0;
-    console.log("prev ctr: "+ctr);
+    console.log("prev ctr: " + ctr);
     if (ctr > 14) {
       disable = true;
       this.forceUpdate();
@@ -100,7 +98,6 @@ class TimeSheet extends React.Component {
       dateDatas = displayDates();
       this.forceUpdate();
     }
-    // this.componentDidMount();
   }
 
   nextDate() {
@@ -116,7 +113,6 @@ class TimeSheet extends React.Component {
       dateDatas = displayNextDates();
       this.forceUpdate();
     }
-    // this.componentDidMount();
   }
 
   render() {
@@ -124,17 +120,19 @@ class TimeSheet extends React.Component {
 
     // console.log("projectData is:")
     // console.log(projectData);
+    
+    // console.log("usersData is:" + JSON.stringify(usersData));
 
-    if (myMap != null ) {
-      console.log("mymap size:"+myMap.size);
+    if (myMap != null) {
+      console.log("mymap size:" + myMap.size);
       keyArr.length = 0;
-      rowcount =0;
+      rowcount = 0;
       myMap.forEach((value, key) => {
         keyArr.push(key);
       })
     }
-   
-    if(ctr3 == 1) {
+
+    if (ctr3 == 1) {
       addRow = this.getNewRow();
       ctr3 = 2;
     }
@@ -176,7 +174,7 @@ class TimeSheet extends React.Component {
 
     let projectNameInput = []; let taskNameInput = []; let tempArr = [];
 
-    let placeholderValue = ''; let index = 0; 
+    let placeholderValue = ''; let index = 0;
 
 
     return (
@@ -233,7 +231,7 @@ class TimeSheet extends React.Component {
           alert("your data is successfully submitted!");
         }
         else alert("form submission failed!");
-        
+
       }
       }>
         <FormGroup >
@@ -243,7 +241,7 @@ class TimeSheet extends React.Component {
           <Table responsive bordered condensed hover type="number">
             <thead>
               <tr>
-                <th><button className="leftShift btn btn-primary" type="button" disabled={disable} onClick={this.prevDate} >>>></button></th>
+                <th><button className="leftShift btn btn-primary" type="button" disabled={disable} title = "Prev" onClick={this.prevDate} >>>></button></th>
                 <th >Project</th>
                 <th >TaskName</th>
                 {dateDatas.map(function (date) {
@@ -251,11 +249,11 @@ class TimeSheet extends React.Component {
 
                   return <th ><Time value={date} format="DD-MMM-YY" className="workType-width" /></th>
                 })}
-                <th><button className="btn btn-primary" type="button" disabled={disable1} onClick={this.nextDate} >>>></button></th>
+                <th><button className="btn btn-primary" type="button" disabled={disable1} title = "Next" onClick={this.nextDate} >>>></button></th>
               </tr>
             </thead>
             <tbody>
-              {myMap != null && 
+              {myMap != null &&
                 keyArr.map((key) => {
                   showSubmit = true;
                   console.log("keyarray length: " + keyArr.length);
@@ -271,45 +269,29 @@ class TimeSheet extends React.Component {
                   }
                   return <tr>
                     <td>
-                      {/* { rowcount == keyArr.length && showSubmit == true &&
-                        <button type="button" className="btn btn-info" onClick={this.getNewRow} >+</button>
-                      } */}
 
                     </td>
                     <td>
-                      <FormControl componentClass="select"  placeholder = {projectName} inputRef={
-                        (ref) => {
-                          if (ref != null) {
-                            projectNameInput.push(ref);
-                          }
+                      <FormControl type="text" disabled = "true" placeholder={projectName}
+                          inputRef={(ref) => {
+                            if (ref != null) {
+                              projectNameInput.push(ref);
 
-                        }
-                      }>
-                        <option value="select" >select</option>
-                        {projectData != null &&
-                          projectData.map(res => {
-                            if (projectName != res.projectName)
-                              return <option value={res.projectName} >{res.projectName}</option>
-                          })
-                        }
-
-                      </FormControl>
+                            }
+                          }}
+                        />
+                        <FormControl.Feedback />
                     </td>
                     <td>
-                      <FormControl componentClass="select" inputRef={
-                        (ref) => {
-                          if (ref != null)
-                            taskNameInput.push(ref);
-                        }
-                      }>
-                        <option value="select" >{taskName}</option>
-                        {taskData.map(res => {
-                          if (taskName != res.taskName)
-                            return <option value={res.taskName}>{res.taskName}</option>
-                        })
-                        }
+                      <FormControl type="text" disabled = "true" placeholder={taskName}
+                          inputRef={(ref) => {
+                            if (ref != null) {
+                              taskNameInput.push(ref);
 
-                      </FormControl>
+                            }
+                          }}
+                        />
+                        <FormControl.Feedback />
                     </td>
 
                     {type.map(function (name) {
@@ -339,7 +321,7 @@ class TimeSheet extends React.Component {
                       columnCount++;
                       return <td>
 
-                        <FormControl type="number" name={name} placeholder={taskValue}
+                        <FormControl type="number" disabled = "true" name={name} placeholder={taskValue}
                           inputRef={(ref) => {
                             if (ref != null) {
                               tempArr.push(ref);
@@ -360,83 +342,83 @@ class TimeSheet extends React.Component {
                     </td>
                   </tr>
                 })
-                
+
               }
 
-              { myMap != null && myMap.size == 0 &&
-             
+              {myMap != null && myMap.size == 0 &&
+
                 addRow.map((rowcount) => {
                   showSubmit = false;
-              console.log("rowcount is:" + rowcount);
-              return <tr>
-                <td>
-                  {rowcount == addRow.length &&
-                    <button type="button" className="btn btn-info" onClick={this.getNewRow} >+</button>
-                  }
-
-                </td>
-                <td>
-                  <FormControl componentClass="select" placeholder="select" inputRef={
-                    (ref) => {
-                      if (ref != null) {
-                        projectNameInput.push(ref);
-                        // console.log("projectName is:" + items1.projectName);
+                  console.log("rowcount is:" + rowcount);
+                  return <tr>
+                    <td>
+                      {rowcount == addRow.length &&
+                        <button type="button" className="btn btn-info" onClick={this.getNewRow} >+</button>
                       }
 
-                    }
-                  }>
-                    <option value="select" >select</option>
-                    {projectData.map(res => {
-                      return <option value={res.projectName}>{res.projectName}</option>
-                    })
-                    }
-
-                  </FormControl>
-                </td>
-                <td>
-                  <FormControl componentClass="select" placeholder="select" inputRef={
-                    (ref) => {
-                      if (ref != null)
-                        // inputRefs.timesheetData.push({ taskInput1: ref.value });
-                        taskNameInput.push(ref);
-                    }
-                  }>
-                    <option value="select" >select</option>
-                    {taskData.map(res => {
-                      return <option value={res.taskName}>{res.taskName}</option>
-                    })
-                    }
-
-                  </FormControl>
-                </td>
-                
-                {
-                  type1.map(function (name) {
-
-                    return <td >
-                      <FormGroup>
-                        
-                        <FormControl type="number" name={name}
-                          inputRef={(ref) => {
-                            if (ref != null) {
-                              tempArr.push(ref);
-                            }
-                          }}
-                        />
-                        <FormControl.Feedback />
-                      </FormGroup>
                     </td>
-                  }
-                  )}
-                <td>
-                  {rowcount == addRow.length && rowcount > 1 && 
-                    <button type="button" className="btn btn-danger" onClick={this.reduceOneRow} >-</button>
-                  }
-                </td>
-              </tr>
-            })
+                    <td>
+                      <FormControl componentClass="select" placeholder="select" inputRef={
+                        (ref) => {
+                          if (ref != null) {
+                            projectNameInput.push(ref);
+                            // console.log("projectName is:" + items1.projectName);
+                          }
 
-            }
+                        }
+                      }>
+                        <option value="select" >select</option>
+                        {projectData.map(res => {
+                          return <option value={res.projectName}>{res.projectName}</option>
+                        })
+                        }
+
+                      </FormControl>
+                    </td>
+                    <td>
+                      <FormControl componentClass="select" placeholder="select" inputRef={
+                        (ref) => {
+                          if (ref != null)
+                            // inputRefs.timesheetData.push({ taskInput1: ref.value });
+                            taskNameInput.push(ref);
+                        }
+                      }>
+                        <option value="select" >select</option>
+                        {taskData.map(res => {
+                          return <option value={res.taskName}>{res.taskName}</option>
+                        })
+                        }
+
+                      </FormControl>
+                    </td>
+
+                    {
+                      type1.map(function (name) {
+
+                        return <td >
+                          <FormGroup>
+
+                            <FormControl type="number" name={name}
+                              inputRef={(ref) => {
+                                if (ref != null) {
+                                  tempArr.push(ref);
+                                }
+                              }}
+                            />
+                            <FormControl.Feedback />
+                          </FormGroup>
+                        </td>
+                      }
+                      )}
+                    <td>
+                      {rowcount == addRow.length && rowcount > 1 &&
+                        <button type="button" className="btn btn-danger" onClick={this.reduceOneRow} >-</button>
+                      }
+                    </td>
+                  </tr>
+                })
+
+              }
             </tbody>
 
           </Table>
