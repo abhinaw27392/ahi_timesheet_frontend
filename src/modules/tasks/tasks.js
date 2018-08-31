@@ -35,6 +35,7 @@ class Tasks extends React.Component {
         }
         this.handlePopUp = this.handlePopUp.bind(this);
         this.canceldelete = this.canceldelete.bind(this);
+        this.handledelete = this.handledelete.bind(this);
 
     }
 
@@ -42,9 +43,9 @@ class Tasks extends React.Component {
     componentDidMount() {
         this.props.getData();
     }
-    // componentWillReceiveProps(){
-    //     this.props.getData();
-    // }
+    componentWillReceiveProps(){
+        this.props.getData();
+    }
 
     openDialog = () => this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false })
 
@@ -89,10 +90,6 @@ class Tasks extends React.Component {
             [e.target.name]: e.target.value
         })
     }
-    onSubmit = e => {
-        e.preventDefault();
-        console.log("printing form data " + JSON.stringify(this.state));
-    }
 
 
     handlePopUp() {
@@ -107,6 +104,23 @@ class Tasks extends React.Component {
         this.setState({ showPopup: false });
     }
 
+    handledelete() {
+        this.setState({showPopup:false});
+        if (checkBoxArr != '') {
+            delSuccessAlert = true;
+            console.log("deletetask is executing...");
+            this.props.delData(checkBoxArr);
+
+            checkBoxArr.length = 0;
+
+        }
+        else {
+            console.log("delete alert is working");
+            showDelAlert = true; delSuccessAlert = false;
+
+        }
+        this.forceUpdate();
+    }
 
     render() {
 
@@ -115,23 +129,6 @@ class Tasks extends React.Component {
         console.log("userData is:" + JSON.stringify(userData));
         // console.log("userId is:" + userData.id);
 
-        function handledelete() {
-            if (checkBoxArr != '') {
-                delSuccessAlert = true;
-                console.log("deletetask is executing...");
-                delData(checkBoxArr);
-
-                checkBoxArr.length = 0;
-
-            }
-            else {
-                console.log("delete alert is working");
-                showDelAlert = true; delSuccessAlert = false;
-
-            }
-
-        }
-        let hello;
         return (
 
 
@@ -160,7 +157,7 @@ class Tasks extends React.Component {
                                 <Alert>
                                     <FormGroup>
                                         <span className="popUp"> Are you sure you want to delete? </span>
-                                        <button type="button" className="btn btn-danger" onClick={handledelete}>OK</button>&nbsp;
+                                        <button type="button" className="btn btn-danger" onClick={this.handledelete}>OK</button>&nbsp;
                                         <button type="button" className="btn btn-primary" onClick={this.canceldelete}>CANCEL</button>
                                     </FormGroup>
                                 </Alert>

@@ -35,6 +35,7 @@ class Projects extends React.Component {
         }
         this.handlePopUp = this.handlePopUp.bind(this);
         this.canceldelete = this.canceldelete.bind(this);
+        this.handledelete = this.handledelete.bind(this);
     }
     handlePopUp() {
         if (checkBoxArr != '') {
@@ -53,9 +54,9 @@ class Projects extends React.Component {
         this.props.getData();
         this.props.getUsers();
     }
-    // componentWillReceiveProps(){
-    //     this.props.getData();
-    // }
+    componentWillReceiveProps(){
+        this.props.getData();
+    }
 
     openDialog = () => {
         this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false });
@@ -110,6 +111,21 @@ class Projects extends React.Component {
         projectNameAlert = false; projectDescAlert = false; showDelAlert = false; delSuccessAlert = false; projectHeadAlert = false;
         this.setState({ isDialogOpen: false, isShowPage: false, isEditDialogOpen: true });
     }
+    handledelete() {
+        this.setState({showPopup:false});
+        if (checkBoxArr != '') {
+            delSuccessAlert = true;
+            console.log("deleteproject is executing...");
+            this.props.delData(checkBoxArr);
+
+            checkBoxArr.length = 0;
+        }
+        else {
+            console.log("delete alert is working");
+            showDelAlert = true; delSuccessAlert = false;
+        }
+        this.forceUpdate();
+    }
 
     render() {
 
@@ -118,19 +134,7 @@ class Projects extends React.Component {
         console.log("usersData is:" + JSON.stringify(usersData));
         console.log("projectData is:" + projectData);
 
-        function handledelete() {
-            if (checkBoxArr != '') {
-                delSuccessAlert = true;
-                console.log("deleteproject is executing...");
-                delData(checkBoxArr);
-
-                checkBoxArr.length = 0;
-            }
-            else {
-                console.log("delete alert is working");
-                showDelAlert = true; delSuccessAlert = false;
-            }
-        }
+    
         return (
 
             <div className="container">
@@ -158,7 +162,7 @@ class Projects extends React.Component {
                         <Alert>
                             <FormGroup>
                                 <span className="popUp"> Are you sure you want to delete? </span>
-                                <button type="button" className="btn btn-danger" onClick={handledelete}>OK</button>&nbsp;
+                                <button type="button" className="btn btn-danger" onClick={this.handledelete}>OK</button>&nbsp;
                                 <button type="button" className="btn btn-primary" onClick={this.canceldelete}>CANCEL</button>
                             </FormGroup>
                         </Alert>

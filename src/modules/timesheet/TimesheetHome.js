@@ -117,9 +117,6 @@ class TimeSheet extends React.Component {
 
   render() {
     const { handleSubmit, errorMessage, myMap } = this.props;
-
-    // console.log("projectData is:")
-    // console.log(projectData);
     
     // console.log("usersData is:" + JSON.stringify(usersData));
 

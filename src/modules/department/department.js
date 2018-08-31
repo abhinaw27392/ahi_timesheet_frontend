@@ -34,13 +34,15 @@ class Department extends React.Component {
         }
         this.handlePopUp = this.handlePopUp.bind(this);
         this.canceldelete = this.canceldelete.bind(this);
+        this.handledelete = this.handledelete.bind(this);
     }
     handlePopUp() {
         if (checkBoxArr != '') {
-        this.setState({ showPopup: true });
+            this.setState({ showPopup: true });
         }
-        else{
+        else {
             this.setState({ showPopup: false });
+
         }
     }
     canceldelete() {
@@ -51,10 +53,11 @@ class Department extends React.Component {
         this.props.getData();
         this.props.getUsers();
     }
-    componentWillReceiveProps() {
+    componentWillReceiveProps(){
         this.props.getData();
-    }
+     
 
+    }
     openDialog = () => {
         this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false });
         departmentNameAlert = false; departmentDescAlert = false; showDelAlert = false; delSuccessAlert = false; departmentHeadAlert = false;
@@ -75,7 +78,20 @@ class Department extends React.Component {
         this.setState({ isDialogOpen: false, isShowPage: true, isEditDialogOpen: false });
     }
 
+    handledelete() {
+        this.setState({ showPopup: false });
+        if (checkBoxArr != '') {
 
+            console.log("deletedepartment is executing...");
+            this.props.delData(checkBoxArr);
+            checkBoxArr.length = 0;
+        }
+        else {
+
+        }
+        this.forceUpdate();
+
+    }
 
 
     handleInputChange(event) {
@@ -120,21 +136,7 @@ class Department extends React.Component {
         console.log("departmentData is:" + departmentData);
 
 
-        function handledelete() {
-            if (checkBoxArr != '') {
-                delSuccessAlert = true;
-                console.log("deletedepartment is executing...");
-                delData(checkBoxArr);
 
-                checkBoxArr.length = 0;
-            }
-            else {
-                console.log("delete alert is working");
-                showDelAlert = true; delSuccessAlert = false;
-
-            }
-
-        }
 
         return (
 
@@ -159,11 +161,11 @@ class Department extends React.Component {
                             </div>
                         }
                         <br /><br />
-                        {this.state.showPopup && 
+                        {this.state.showPopup &&
                             <Alert>
                                 <FormGroup>
                                     <span className="popUp"> Are you sure you want to delete? </span>
-                                    <button type="button" className="btn btn-danger" onClick={handledelete}>OK</button>&nbsp;
+                                    <button type="button" className="btn btn-danger" onClick={this.handledelete}>OK</button>&nbsp;
                                     <button type="button" className="btn btn-primary" onClick={this.canceldelete}>CANCEL</button>
                                 </FormGroup>
                             </Alert>
@@ -216,6 +218,8 @@ class Department extends React.Component {
                         {this.state.isDialogOpen &&
                             <div className="panel panel-blur">
                                 <Form className="ahi-department-form" id="ahi-department-form" onSubmit={(e) => {
+                                    this.props.getData();
+                                    this.forceUpdate();
                                     e.preventDefault();
                                     let datas = ''; departmentDescAlert = false; departmentNameAlert = false; departmentHeadAlert = false;
 
@@ -243,7 +247,7 @@ class Department extends React.Component {
                                         departmentHeadAlert = true;
                                         this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false });
                                     }
-
+                                    
                                 }
                                 }>
                                     <FormGroup >
@@ -320,6 +324,8 @@ class Department extends React.Component {
                         {this.state.isEditDialogOpen &&
                             <div className="panel panel-blur">
                                 <Form className="ahi-department-form" id="ahi-department-edit-form" onSubmit={(e) => {
+                                    this.props.getData();
+                                    this.forceUpdate();
                                     e.preventDefault();
                                     let datas = '';
                                     departmentNameAlert = false; departmentDescAlert = false; showDelAlert = false; delSuccessAlert = false; departmentHeadAlert = false;
@@ -363,6 +369,7 @@ class Department extends React.Component {
                                         editSubmit(datas);
                                         this.handleClose();
                                     }
+                                    
                                 }
                                 }>
                                     <FormGroup >
