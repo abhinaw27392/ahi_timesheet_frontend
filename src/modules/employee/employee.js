@@ -39,9 +39,9 @@ class Employee extends React.Component {
     componentDidMount() {
         this.props.getUsers();
     }
-    componentWillReceiveProps() {
-        this.props.getUsers();
-    }
+    // componentWillReceiveProps() {
+    //     this.props.getUsers();
+    // }
 
     openDialog = () => {
         this.setState({ isDialogOpen: true, isShowPdob: false, isEditDialogOpen: false });
@@ -509,7 +509,7 @@ class Employee extends React.Component {
                                         dobAlert = true;
                                         this.setState({ isEditDialogOpen: true, isShowPage: false, isDialogOpen: false });
                                     }
-                                    else if (!dobInput.value.match(/[\d]{4}-[\d]{2}-[\d]{2}/)) {
+                                    else if (!dobInput.value.match(/[\d]{4}-[\d]{2}-[\d]{2}/) && dobInput.value != "") {
                                         dobEditAlert = true;
                                         this.setState({ isEditDialogOpen: true, isShowPage: false, isDialogOpen: false });
                                     }

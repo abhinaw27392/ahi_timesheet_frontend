@@ -22,22 +22,40 @@ import './projectss.scss'
 
 let checkBoxArr = []; let projectNameAlert = false; let projectDescAlert = false; let showDelAlert = false; let delSuccessAlert = false;
 let projectHeadAlert = false;
+
+
 class Projects extends React.Component {
     constructor() {
         super();
         this.state = {
             isDialogOpen: false,
             isEditDialogOpen: false,
-            isShowPage: true
+            isShowPage: true,
+            showPopup: false
         }
+        this.handlePopUp = this.handlePopUp.bind(this);
+        this.canceldelete = this.canceldelete.bind(this);
+    }
+    handlePopUp() {
+        if (checkBoxArr != '') {
+            this.setState({ showPopup: true });
+            }
+            else{
+                this.setState({ showPopup: false });
+            }
+    }
+    canceldelete() {
+     
+        this.setState({ showPopup: false });
+      
     }
     componentDidMount() {
         this.props.getData();
         this.props.getUsers();
     }
-    componentWillReceiveProps(){
-        this.props.getData();
-    }
+    // componentWillReceiveProps(){
+    //     this.props.getData();
+    // }
 
     openDialog = () => {
         this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false });
@@ -131,11 +149,20 @@ class Projects extends React.Component {
                             {/* {delSuccessAlert ? (<Alert bsStyle="success" >Your project is successfully deleted!</Alert>) : null} */}
 
                             <button type="button" onClick={this.openDialog} className="btn btn-primary adddisplay" >Add</button>
-                            <button type="button" className="btn btn-danger deldisplay" onClick={handledelete} >Del</button>
+                            <button type="button" className="btn btn-danger deldisplay" onClick={this.handlePopUp} >Del</button>
                             <br /><br />
                         </div>
                     }
                     <br /><br />
+                    {this.state.showPopup &&
+                        <Alert>
+                            <FormGroup>
+                                <span className="popUp"> Are you sure you want to delete? </span>
+                                <button type="button" className="btn btn-danger" onClick={handledelete}>OK</button>&nbsp;
+                                <button type="button" className="btn btn-primary" onClick={this.canceldelete}>CANCEL</button>
+                            </FormGroup>
+                        </Alert>
+                    }
                     {
                         projectData != null &&
                         this.state.isShowPage &&

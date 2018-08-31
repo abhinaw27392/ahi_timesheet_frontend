@@ -25,23 +25,26 @@ let checkBoxArr = []; let taskNameAlert = false; let taskDescAlert = false; let 
 class Tasks extends React.Component {
     constructor(props) {
         super(props);
-        this.forceUpdate = this.forceUpdate.bind(this);
         this.state = {
-            
+
             isDialogOpen: false,
             isEditDialogOpen: false,
             isShowPage: true,
-    
-        };
+            showPopup: false
 
+        }
+        this.handlePopUp = this.handlePopUp.bind(this);
+        this.canceldelete = this.canceldelete.bind(this);
 
     }
+
+
     componentDidMount() {
         this.props.getData();
     }
-    componentWillReceiveProps(){
-        this.props.getData();
-    }
+    // componentWillReceiveProps(){
+    //     this.props.getData();
+    // }
 
     openDialog = () => this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false })
 
@@ -51,8 +54,8 @@ class Tasks extends React.Component {
         this.setState({ isEditDialogOpen: true, isShowPage: false, isDialogOpen: false });
         this.editData = row;
         console.log(this.editData);
-        taskNameAlert = false; taskDescAlert = false; showDelAlert = false; delSuccessAlert = false; 
-        }
+        taskNameAlert = false; taskDescAlert = false; showDelAlert = false; delSuccessAlert = false;
+    }
 
     handleClose = () => this.setState({ isDialogOpen: false, isShowPage: true, isEditDialogOpen: false })
 
@@ -90,6 +93,21 @@ class Tasks extends React.Component {
         e.preventDefault();
         console.log("printing form data " + JSON.stringify(this.state));
     }
+
+
+    handlePopUp() {
+        if (checkBoxArr != '') {
+            this.setState({ showPopup: true });
+            }
+            else{
+                this.setState({ showPopup: false });
+            }
+    }
+    canceldelete() {
+        this.setState({ showPopup: false });
+    }
+
+
     render() {
 
         const { addSubmit, editSubmit, errorMessage, isFetching, taskData, delData, userData } = this.props;
@@ -104,16 +122,18 @@ class Tasks extends React.Component {
                 delData(checkBoxArr);
 
                 checkBoxArr.length = 0;
-                
+
             }
             else {
                 console.log("delete alert is working");
                 showDelAlert = true; delSuccessAlert = false;
 
             }
-        }
 
+        }
+        let hello;
         return (
+
 
             <div className="container">
                 {
@@ -130,15 +150,25 @@ class Tasks extends React.Component {
                                 this.state.isShowPage &&
                                 <div>
                                     <button type="button" onClick={this.openDialog} className="btn btn-primary adddisplay" >Add</button><span> </span>
-                                    <button type="button" className="btn btn-danger deldisplay" onClick={handledelete} >Del</button>
+                                    <button type="button" className="btn btn-danger deldisplay" onClick={this.handlePopUp} >Del</button>
+
                                     <br /><br />
                                 </div>
                             }
                             <br /><br />
+                            {this.state.showPopup &&
+                                <Alert>
+                                    <FormGroup>
+                                        <span className="popUp"> Are you sure you want to delete? </span>
+                                        <button type="button" className="btn btn-danger" onClick={handledelete}>OK</button>&nbsp;
+                                        <button type="button" className="btn btn-primary" onClick={this.canceldelete}>CANCEL</button>
+                                    </FormGroup>
+                                </Alert>
+                            }
                             {taskData != null &&
                                 this.state.isShowPage &&
                                 <div className="panel panel-blur">
-                                    <Table responsive bordered condensed hover className="">    
+                                    <Table responsive bordered condensed hover className="">
                                         <thead>
                                             {
                                                 <tr>
@@ -147,13 +177,13 @@ class Tasks extends React.Component {
                                                     <th><ControlLabel>DESCRIPTION</ControlLabel></th>
                                                 </tr>
                                             }
-            
+
                                         </thead>
                                         <tbody>
                                             {taskData.map((row) => {
                                                 // console.log("row_id:" + row.taskId);
                                                 return <tr className="test">
-                                                    <td><Checkbox name={row.taskId} value = "false" onChange={this.handleInputChange}></Checkbox></td>
+                                                    <td><Checkbox name={row.taskId} value="false" onChange={this.handleInputChange}></Checkbox></td>
                                                     <td><a onClick={() => this.openEditDialog(row)} title="Edit your task">{row.taskName}</a></td>
                                                     <td>{row.taskDescription}</td>
                                                 </tr>
@@ -238,7 +268,7 @@ class Tasks extends React.Component {
                                 <FormGroup>
                                     <button className="btn btn-primary canceldisplay" onClick={this.handleClose} >Cancel</button>
                                     <button type="submit" className="btn btn-success  resetdisplay" >Submit</button>
-                                    <button type="button" className="btn btn-info  resetdisplay" onClick={this.addReset} >Reset</button>
+                                    <button type="button" className="btn btn-info  resetdisplay" onClick={this.handleReset} >Reset</button>
                                 </FormGroup>
                             </Form>
                         </div>
@@ -339,7 +369,7 @@ class Tasks extends React.Component {
 
                     </div>
                 }
-        
+
 
 
             </div>
