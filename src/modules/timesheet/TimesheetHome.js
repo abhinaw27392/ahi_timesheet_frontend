@@ -53,8 +53,12 @@ class TimeSheet extends React.Component {
     };
   }
 
-  componentWillReceiveProps() {
+  componentDidMount() {
+    this.getDateRange();
+    this.props.getAllData('2', datefirst, datelast);
     // this.props.getUser();
+  }
+  componentWillReceiveProps() {
     this.getDateRange();
     this.props.getAllData('2', datefirst, datelast);
   }
