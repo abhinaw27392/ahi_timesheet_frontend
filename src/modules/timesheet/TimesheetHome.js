@@ -32,7 +32,7 @@ let inputRefs = {
 
 let items1 = {};
 let disable = false; let disable1 = false;
-let rowcount = 0; let projectTaskName = [];
+let rowcount   = 0; let projectTaskName = [];
 let columnCount = 0; let taskDate; let taskValue = '';
 let projectName = ''; let taskName = ''; let keyArr = [];
 let dateArr = [];
@@ -44,6 +44,8 @@ class TimeSheet extends React.Component {
   constructor(props) {
 
     super(props);
+    console.log("this.props:");
+    console.log(this.props);
     this.prevDate = this.prevDate.bind(this);
     this.nextDate = this.nextDate.bind(this);
     this.getNewRow = this.getNewRow.bind(this);
