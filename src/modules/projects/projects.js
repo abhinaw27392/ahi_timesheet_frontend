@@ -40,21 +40,21 @@ class Projects extends React.Component {
     handlePopUp() {
         if (checkBoxArr != '') {
             this.setState({ showPopup: true });
-            }
-            else{
-                this.setState({ showPopup: false });
-            }
+        }
+        else {
+            this.setState({ showPopup: false });
+        }
     }
     canceldelete() {
-     
+
         this.setState({ showPopup: false });
-      
+
     }
     componentDidMount() {
         this.props.getData();
         this.props.getUsers();
     }
-    componentWillReceiveProps(){
+    componentWillReceiveProps() {
         this.props.getData();
     }
 
@@ -112,7 +112,7 @@ class Projects extends React.Component {
         this.setState({ isDialogOpen: false, isShowPage: false, isEditDialogOpen: true });
     }
     handledelete() {
-        this.setState({showPopup:false});
+        this.setState({ showPopup: false });
         if (checkBoxArr != '') {
             delSuccessAlert = true;
             console.log("deleteproject is executing...");
@@ -134,7 +134,7 @@ class Projects extends React.Component {
         console.log("usersData is:" + JSON.stringify(usersData));
         console.log("projectData is:" + projectData);
 
-    
+
         return (
 
             <div className="container">
@@ -146,61 +146,61 @@ class Projects extends React.Component {
                 }
 
                 {this.state.isShowPage &&
-                <div className="panel">
-                    {this.state.isShowPage &&
-                        <div>
-                            {showDelAlert ? (<Alert bsStyle="danger">Please Seelct a project!</Alert>) : null}
-                            {/* {delSuccessAlert ? (<Alert bsStyle="success" >Your project is successfully deleted!</Alert>) : null} */}
+                    <div className="panel">
+                        {this.state.isShowPage &&
+                            <div>
+                                {showDelAlert ? (<Alert bsStyle="danger">Please Seelct a project!</Alert>) : null}
+                                {/* {delSuccessAlert ? (<Alert bsStyle="success" >Your project is successfully deleted!</Alert>) : null} */}
 
-                            <button type="button" onClick={this.openDialog} className="btn btn-primary adddisplay" >Add</button>
-                            <button type="button" className="btn btn-danger deldisplay" onClick={this.handlePopUp} >Del</button>
-                            <br /><br />
-                        </div>
-                    }
-                    <br /><br />
-                    {this.state.showPopup &&
-                        <Alert>
-                            <FormGroup>
-                                <span className="popUp"> Are you sure you want to delete? </span>
-                                <button type="button" className="btn btn-danger" onClick={this.handledelete}>OK</button>&nbsp;
+                                <button type="button" onClick={this.openDialog} className="btn btn-primary adddisplay" >Add</button>
+                                <button type="button" className="btn btn-danger deldisplay" onClick={this.handlePopUp} >Del</button>
+                                <br /><br />
+                            </div>
+                        }
+                        <br /><br />
+                        {this.state.showPopup &&
+                            <Alert>
+                                <FormGroup>
+                                    <span className="popUp"> Are you sure you want to delete? </span>
+                                    <button type="button" className="btn btn-danger" onClick={this.handledelete}>OK</button>&nbsp;
                                 <button type="button" className="btn btn-primary" onClick={this.canceldelete}>CANCEL</button>
-                            </FormGroup>
-                        </Alert>
-                    }
-                    {
-                        projectData != null &&
-                        this.state.isShowPage &&
-                        <div className="panel panel-blur">
-                            <Table responsive bordered condensed hover className="tableStyle">
-                                <thead>
-                                    {
-                                        <tr>
-                                            <th>Select</th>
-                                            <th><ControlLabel>ProjectName</ControlLabel></th>
-                                            <th><ControlLabel>Description</ControlLabel></th>
-                                            <th><ControlLabel>Headed By</ControlLabel></th>
-                                        </tr>
-                                    }
+                                </FormGroup>
+                            </Alert>
+                        }
+                        {
+                            projectData != null &&
+                            this.state.isShowPage &&
+                            <div className="panel panel-blur">
+                                <Table responsive bordered condensed hover className="tableStyle">
+                                    <thead>
+                                        {
+                                            <tr>
+                                                <th>Select</th>
+                                                <th><ControlLabel>ProjectName</ControlLabel></th>
+                                                <th><ControlLabel>Description</ControlLabel></th>
+                                                <th><ControlLabel>Headed By</ControlLabel></th>
+                                            </tr>
+                                        }
 
-                                </thead>
-                                <tbody>
-                                    {projectData.map((row) => {
-                                        // console.log("row_id:" + row.projectId);
-                                        return <tr className="test">
-                                            <td><Checkbox name={row.projectId} value = "false" onChange={this.handleInputChange}></Checkbox></td>
-                                            <td><a onClick={() => this.openEditDialog(row)} title="Edit your project">{row.projectName}</a></td>
-                                            <td>{row.projectDescription}</td>
-                                            <td>{row.headedBy}</td>
-                                        </tr>
-                                    })
-                                    }
-                                </tbody>
-                            </Table>
-                        </div>
-                    }
-                    <br />
+                                    </thead>
+                                    <tbody>
+                                        {projectData.map((row) => {
+                                            // console.log("row_id:" + row.projectId);
+                                            return <tr className="test">
+                                                <td><Checkbox name={row.projectId} value="false" onChange={this.handleInputChange}></Checkbox></td>
+                                                <td><a onClick={() => this.openEditDialog(row)} title="Edit your project">{row.projectName}</a></td>
+                                                <td>{row.projectDescription}</td>
+                                                <td>{row.headedBy}</td>
+                                            </tr>
+                                        })
+                                        }
+                                    </tbody>
+                                </Table>
+                            </div>
+                        }
+                        <br />
 
-                </div>
+                    </div>
                 }
 
                 {
@@ -211,106 +211,106 @@ class Projects extends React.Component {
                 }
 
                 {this.state.isDialogOpen &&
-                
-                <div className="panel">
-                    {this.state.isDialogOpen &&
-                        <div className="panel panel-blur">
-                        <Form className="ahi-project-form" id="ahi-project-form" onSubmit={(e) => {
-                            e.preventDefault();
-                            let datas = ''; projectDescAlert = false; projectNameAlert = false; projectHeadAlert = false;
 
-                            projectNameInput.value = trim(projectNameInput.value);
-                            descInput.value = trim(descInput.value);
+                    <div className="panel">
+                        {this.state.isDialogOpen &&
+                            <div className="panel panel-blur">
+                                <Form className="ahi-project-form" id="ahi-project-form" onSubmit={(e) => {
+                                    e.preventDefault();
+                                    let datas = ''; projectDescAlert = false; projectNameAlert = false; projectHeadAlert = false;
 
-                            if (projectNameInput.value != '' && descInput.value != '' && headed_byInput.value != 'select') {
-                                datas = { projectId: null, projectName: projectNameInput.value, projectDescription: descInput.value, headedByUserId: headed_byInput.value };
-                                addSubmit(datas);
-                                this.handleClose();
-                            }
-                            else if (projectNameInput.value == '') {
-                                console.log("projectname alert is working");
-                                projectNameAlert = true;
-                                this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false });
-                            }
-                            else if (descInput.value == '') {
-                                console.log("desc alert is working");
-                                projectDescAlert = true;
-                                this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false });
-                            }
-                            else if (headed_byInput.value == 'select') {
-                                console.log("Headed By alert is working");
-                                projectHeadAlert = true;
-                                this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false });
-                            }
-                            //-------------------------------------added
-                        }
-                        }>
-                            <FormGroup >
-                                {errorMessage ? (<Alert bsStyle="danger"><strong>Error!</strong> {errorMessage}</Alert>) : null}
-                            </FormGroup>
+                                    projectNameInput.value = trim(projectNameInput.value);
+                                    descInput.value = trim(descInput.value);
 
-                            <FormGroup >
-                                {isFetching ? (<Alert bsStyle="success" >Your Project is successfully Added!</Alert>) : null}
-                            </FormGroup>
-
-                            <FormGroup >
-                                {projectNameAlert ? (<Alert bsStyle="danger" >Please Enter project name!</Alert>) : null}
-                            </FormGroup>
-                            <FormGroup >
-                                {projectDescAlert ? (<Alert bsStyle="danger" >Please Enter project description!</Alert>) : null}
-                            </FormGroup>
-                            <FormGroup >
-                                {projectHeadAlert ? (<Alert bsStyle="danger" >Please Enter Headed By!</Alert>) : null}
-                            </FormGroup>
-
-                            <FormGroup controlId="formControlsSelect" className="ahi-project-name">
-                                <ControlLabel>Project Name</ControlLabel>
-                                <FormControl type="string" placeholder="enter ProjectName"
-                                    inputRef={(ref) => {
-                                        projectNameInput = ref
-                                    }}
-                                />
-                            </FormGroup>
-
-                            <FormGroup className="ahi-project-desc">
-                                <ControlLabel>Description</ControlLabel>
-                                <FormControl type="string" placeholder="enter description"
-                                    inputRef={(ref) => {
-                                        descInput = ref
-                                    }}
-                                />
-                            </FormGroup>
-                            <FormGroup controlId="formControlsSelect" className="form-inline1">
-                                <ControlLabel >Headed By:</ControlLabel>&nbsp;
-                                <FormControl componentClass="select" placeholder="select" inputRef={
-                                    (ref) => { headed_byInput = ref }
-                                }>
-                                    <option value="select" >select</option>
-                                    {usersData.map(res => {
-                                        return <option value={res.id}>{res.firstName} {res.lastName}</option>
-                                    })
+                                    if (projectNameInput.value != '' && descInput.value != '' && headed_byInput.value != 'select') {
+                                        datas = { projectId: null, projectName: projectNameInput.value, projectDescription: descInput.value, headedByUserId: headed_byInput.value };
+                                        addSubmit(datas);
+                                        this.handleClose();
                                     }
+                                    else if (projectNameInput.value == '') {
+                                        console.log("projectname alert is working");
+                                        projectNameAlert = true;
+                                        this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false });
+                                    }
+                                    else if (descInput.value == '') {
+                                        console.log("desc alert is working");
+                                        projectDescAlert = true;
+                                        this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false });
+                                    }
+                                    else if (headed_byInput.value == 'select') {
+                                        console.log("Headed By alert is working");
+                                        projectHeadAlert = true;
+                                        this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false });
+                                    }
+                                    //-------------------------------------added
+                                }
+                                }>
+                                    <FormGroup >
+                                        {errorMessage ? (<Alert bsStyle="danger"><strong>Error!</strong> {errorMessage}</Alert>) : null}
+                                    </FormGroup>
 
-                                </FormControl>
-                            </FormGroup>
-                            <br />
+                                    <FormGroup >
+                                        {isFetching ? (<Alert bsStyle="success" >Your Project is successfully Added!</Alert>) : null}
+                                    </FormGroup>
 
-                            <FormGroup>
-                                <button className="btn btn-primary canceldisplay" onClick={this.handleClose} >Cancel</button>
-                                <button type="submit" className="btn btn-success  resetdisplay" >Submit</button>
-                                <button type="button" className="btn btn-info  resetdisplay" onClick={this.addReset} >Reset</button>
-                            </FormGroup>
-                            <br />
+                                    <FormGroup >
+                                        {projectNameAlert ? (<Alert bsStyle="danger" >Please Enter project name!</Alert>) : null}
+                                    </FormGroup>
+                                    <FormGroup >
+                                        {projectDescAlert ? (<Alert bsStyle="danger" >Please Enter project description!</Alert>) : null}
+                                    </FormGroup>
+                                    <FormGroup >
+                                        {projectHeadAlert ? (<Alert bsStyle="danger" >Please Enter Headed By!</Alert>) : null}
+                                    </FormGroup>
 
-                        </Form>
-                        </div>
-                   
-                    
-                            }
+                                    <FormGroup controlId="formControlsSelect" className="ahi-project-name">
+                                        <ControlLabel>Project Name</ControlLabel>
+                                        <FormControl type="string" placeholder="enter ProjectName"
+                                            inputRef={(ref) => {
+                                                projectNameInput = ref
+                                            }}
+                                        />
+                                    </FormGroup>
+
+                                    <FormGroup className="ahi-project-desc">
+                                        <ControlLabel>Description</ControlLabel>
+                                        <FormControl type="string" placeholder="enter description"
+                                            inputRef={(ref) => {
+                                                descInput = ref
+                                            }}
+                                        />
+                                    </FormGroup>
+                                    <FormGroup controlId="formControlsSelect" className="form-inline1">
+                                        <ControlLabel >Headed By:</ControlLabel>&nbsp;
+                                <FormControl componentClass="select" placeholder="select" inputRef={
+                                            (ref) => { headed_byInput = ref }
+                                        }>
+                                            <option value="select" >select</option>
+                                            {usersData.map(res => {
+                                                return <option value={res.id}>{res.firstName} {res.lastName}</option>
+                                            })
+                                            }
+
+                                        </FormControl>
+                                    </FormGroup>
+                                    <br />
+
+                                    <FormGroup>
+                                        <button className="btn btn-primary canceldisplay" onClick={this.handleClose} >Cancel</button>
+                                        <button type="submit" className="btn btn-success  resetdisplay" >Submit</button>
+                                        <button type="button" className="btn btn-info  resetdisplay" onClick={this.addReset} >Reset</button>
+                                    </FormGroup>
+                                    <br />
+
+                                </Form>
+                            </div>
 
 
-                </div>
                         }
+
+
+                    </div>
+                }
 
                 {
                     this.state.isEditDialogOpen &&
@@ -319,121 +319,121 @@ class Projects extends React.Component {
                     </div>
                 }
                 {this.state.isEditDialogOpen &&
-                <div className="panel">
-                    {this.state.isEditDialogOpen &&
-                        <div className="panel panel-blur">
-                        <Form className="ahi-project-form" id="ahi-project-edit-form" onSubmit={(e) => {
-                            e.preventDefault();
-                            let datas = ''
-                            projectNameAlert = false; projectDescAlert = false; showDelAlert = false; delSuccessAlert = false; projectHeadAlert = false;
+                    <div className="panel">
+                        {this.state.isEditDialogOpen &&
+                            <div className="panel panel-blur">
+                                <Form className="ahi-project-form" id="ahi-project-edit-form" onSubmit={(e) => {
+                                    e.preventDefault();
+                                    let datas = ''
+                                    projectNameAlert = false; projectDescAlert = false; showDelAlert = false; delSuccessAlert = false; projectHeadAlert = false;
 
-                            if (projectNameInput.value != '' && trim(projectNameInput.value) == '') {
-                                console.log("projectNameAlert is working");
-                                projectNameAlert = true;
-                                this.setState({ isEditDialogOpen: true, isShowPage: false, isDialogOpen: false });
-                            }
-                            else if (descInput.value != '' && trim(descInput.value) == '') {
-                                console.log("projectDescAlert is working");
-                                projectDescAlert = true;
-                                this.setState({ isEditDialogOpen: true, isShowPage: false, isDialogOpen: false });
-                            }
-                            else {
-                                projectNameInput.value = trim(projectNameInput.value);
-                                descInput.value = trim(descInput.value);
-
-                                if (projectNameInput.value == '' && descInput.value != '' && headed_byInput.value != 'select') {
-                                    datas = { projectId: this.editData.projectId, projectName: this.editData.projectName, projectDescription: descInput.value, headedByUserId: headed_byInput.value }
-                                }
-                                else if (descInput.value == '' && projectNameInput.value != '' && headed_byInput.value != 'select') {
-                                    datas = { projectId: this.editData.projectId, projectName: projectNameInput.value, projectDescription: this.editData.projectDescription, headedByUserId: headed_byInput.value }
-                                }
-                                else if (descInput.value == '' && projectNameInput.value == '' && headed_byInput.value != 'select') {
-                                    datas = { projectId: this.editData.projectId, projectName: this.editData.projectName, projectDescription: this.editData.projectDescription, headedByUserId: headed_byInput.value }
-                                }
-                                else if (descInput.value == '' && projectNameInput.value == '' && headed_byInput.value == 'select') {
-                                    datas = { projectId: this.editData.projectId, projectName: this.editData.projectName, projectDescription: this.editData.projectDescription, headedByUserId: this.editData.headedByUserId }
-                                }
-                                else if (descInput.value == '' && projectNameInput.value != '' && headed_byInput.value == 'select') {
-                                    datas = { projectId: this.editData.projectId, projectName: projectNameInput.value, projectDescription: this.editData.projectDescription, headedByUserId: this.editData.headedByUserId }
-                                }
-                                else if (descInput.value != '' && projectNameInput.value == '' && headed_byInput.value == 'select') {
-                                    datas = { projectId: this.editData.projectId, projectName: this.editData.projectName, projectDescription: descInput.value, headedByUserId: this.editData.headedByUserId }
-                                }
-                                else {
-                                    datas = { projectId: this.editData.projectId, projectName: projectNameInput.value, projectDescription: descInput.value, headedByUserId: headed_byInput.value }
-                                }
-
-                                editSubmit(datas);
-                                this.handleClose();
-                            }
-                        }
-                        }>
-                            <FormGroup >
-                                {errorMessage ? (<Alert bsStyle="danger"><strong>Error!</strong> {errorMessage}</Alert>) : null}
-                            </FormGroup>
-
-                            <FormGroup >
-                                {isFetching ? (<Alert bsStyle="success" >Your Project is successfully Editted!</Alert>) : null}
-                            </FormGroup>
-                            <FormGroup >
-                                {projectNameAlert ? (<Alert bsStyle="danger" >Please Enter valid project name!</Alert>) : null}
-                            </FormGroup>
-                            <FormGroup >
-                                {projectDescAlert ? (<Alert bsStyle="danger" >Please Enter valid project description!</Alert>) : null}
-                            </FormGroup>
-
-                            <FormGroup controlId="formControlsSelect" className="ahi-project-name">
-                                <ControlLabel>Project Name</ControlLabel>
-                                <FormControl type="string" placeholder={this.editData.projectName}
-                                    inputRef={(ref) => {
-                                        projectNameInput = ref
-                                    }}
-                                />
-                            </FormGroup>
-
-                            <FormGroup className="ahi-project-desc">
-                                <ControlLabel>Description</ControlLabel>
-                                <FormControl type="string" placeholder={this.editData.projectDescription}
-                                    inputRef={(ref) => {
-                                        descInput = ref
-                                    }}
-                                />
-                            </FormGroup>
-                            <FormGroup controlId="formControlsSelect" className="form-inline1">
-                                <ControlLabel >Headed By:</ControlLabel>&nbsp;
-                                    <FormControl componentClass="select" placeholder={this.editData.headedByUserId} inputRef={
-                                    (ref) => { headed_byInput = ref }
-                                }>
-                                    {usersData.map(res => {
-                                        if (this.editData.headedByUserId == res.id) {
-                                            return <option value="select" >{res.firstName} {res.lastName}</option>
-                                        }
-                                    })}
-                                    {usersData.map(res => {
-                                        if (this.editData.headedByUserId != res.id) {
-                                            return <option value={res.id}>{res.firstName} {res.lastName}</option>
-                                        }
-                                    })
+                                    if (projectNameInput.value != '' && trim(projectNameInput.value) == '') {
+                                        console.log("projectNameAlert is working");
+                                        projectNameAlert = true;
+                                        this.setState({ isEditDialogOpen: true, isShowPage: false, isDialogOpen: false });
                                     }
-                                </FormControl>
-                            </FormGroup>
-                            <br />
+                                    else if (descInput.value != '' && trim(descInput.value) == '') {
+                                        console.log("projectDescAlert is working");
+                                        projectDescAlert = true;
+                                        this.setState({ isEditDialogOpen: true, isShowPage: false, isDialogOpen: false });
+                                    }
+                                    else {
+                                        projectNameInput.value = trim(projectNameInput.value);
+                                        descInput.value = trim(descInput.value);
 
-                            <FormGroup>
-                                <button className="btn btn-primary canceldisplay" onClick={this.handleClose} >Cancel</button>
-                                <button type="submit" className="btn btn-success  resetdisplay" >Submit</button>
-                                <button type="button" className="btn btn-info  resetdisplay" onClick={this.editReset} >Reset</button>
-                            </FormGroup>
-                            <br />
+                                        if (projectNameInput.value == '' && descInput.value != '' && headed_byInput.value != 'select') {
+                                            datas = { projectId: this.editData.projectId, projectName: this.editData.projectName, projectDescription: descInput.value, headedByUserId: headed_byInput.value }
+                                        }
+                                        else if (descInput.value == '' && projectNameInput.value != '' && headed_byInput.value != 'select') {
+                                            datas = { projectId: this.editData.projectId, projectName: projectNameInput.value, projectDescription: this.editData.projectDescription, headedByUserId: headed_byInput.value }
+                                        }
+                                        else if (descInput.value == '' && projectNameInput.value == '' && headed_byInput.value != 'select') {
+                                            datas = { projectId: this.editData.projectId, projectName: this.editData.projectName, projectDescription: this.editData.projectDescription, headedByUserId: headed_byInput.value }
+                                        }
+                                        else if (descInput.value == '' && projectNameInput.value == '' && headed_byInput.value == 'select') {
+                                            datas = { projectId: this.editData.projectId, projectName: this.editData.projectName, projectDescription: this.editData.projectDescription, headedByUserId: this.editData.headedByUserId }
+                                        }
+                                        else if (descInput.value == '' && projectNameInput.value != '' && headed_byInput.value == 'select') {
+                                            datas = { projectId: this.editData.projectId, projectName: projectNameInput.value, projectDescription: this.editData.projectDescription, headedByUserId: this.editData.headedByUserId }
+                                        }
+                                        else if (descInput.value != '' && projectNameInput.value == '' && headed_byInput.value == 'select') {
+                                            datas = { projectId: this.editData.projectId, projectName: this.editData.projectName, projectDescription: descInput.value, headedByUserId: this.editData.headedByUserId }
+                                        }
+                                        else {
+                                            datas = { projectId: this.editData.projectId, projectName: projectNameInput.value, projectDescription: descInput.value, headedByUserId: headed_byInput.value }
+                                        }
 
-                        </Form>
-                        </div>
+                                        editSubmit(datas);
+                                        this.handleClose();
+                                    }
+                                }
+                                }>
+                                    <FormGroup >
+                                        {errorMessage ? (<Alert bsStyle="danger"><strong>Error!</strong> {errorMessage}</Alert>) : null}
+                                    </FormGroup>
+
+                                    <FormGroup >
+                                        {isFetching ? (<Alert bsStyle="success" >Your Project is successfully Editted!</Alert>) : null}
+                                    </FormGroup>
+                                    <FormGroup >
+                                        {projectNameAlert ? (<Alert bsStyle="danger" >Please Enter valid project name!</Alert>) : null}
+                                    </FormGroup>
+                                    <FormGroup >
+                                        {projectDescAlert ? (<Alert bsStyle="danger" >Please Enter valid project description!</Alert>) : null}
+                                    </FormGroup>
+
+                                    <FormGroup controlId="formControlsSelect" className="ahi-project-name">
+                                        <ControlLabel>Project Name</ControlLabel>
+                                        <FormControl type="string" placeholder={this.editData.projectName}
+                                            inputRef={(ref) => {
+                                                projectNameInput = ref
+                                            }}
+                                        />
+                                    </FormGroup>
+
+                                    <FormGroup className="ahi-project-desc">
+                                        <ControlLabel>Description</ControlLabel>
+                                        <FormControl type="string" placeholder={this.editData.projectDescription}
+                                            inputRef={(ref) => {
+                                                descInput = ref
+                                            }}
+                                        />
+                                    </FormGroup>
+                                    <FormGroup controlId="formControlsSelect" className="form-inline1">
+                                        <ControlLabel >Headed By:</ControlLabel>&nbsp;
+                                    <FormControl componentClass="select" placeholder={this.editData.headedByUserId} inputRef={
+                                            (ref) => { headed_byInput = ref }
+                                        }>
+                                            {usersData.map(res => {
+                                                if (this.editData.headedByUserId == res.id) {
+                                                    return <option value="select" >{res.firstName} {res.lastName}</option>
+                                                }
+                                            })}
+                                            {usersData.map(res => {
+                                                if (this.editData.headedByUserId != res.id) {
+                                                    return <option value={res.id}>{res.firstName} {res.lastName}</option>
+                                                }
+                                            })
+                                            }
+                                        </FormControl>
+                                    </FormGroup>
+                                    <br />
+
+                                    <FormGroup>
+                                        <button className="btn btn-primary canceldisplay" onClick={this.handleClose} >Cancel</button>
+                                        <button type="submit" className="btn btn-success  resetdisplay" >Submit</button>
+                                        <button type="button" className="btn btn-info  resetdisplay" onClick={this.editReset} >Reset</button>
+                                    </FormGroup>
+                                    <br />
+
+                                </Form>
+                            </div>
 
 
 
-                    }
+                        }
 
-                </div>
+                    </div>
                 }
                 <br />
             </div>

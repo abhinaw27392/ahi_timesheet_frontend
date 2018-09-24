@@ -279,7 +279,7 @@ class Tasks extends React.Component {
                     <div className="panel">
                         {
                             <div>
-                                <h1 className="panel panel-heading">EDIT TASKK</h1>
+                                <h1 className="panel panel-heading">EDIT TASK</h1>
                             </div>
                         }
                         <div className="panel panel-blur">

@@ -18,6 +18,7 @@ import Dialog from 'react-dialog'
 //import local
 import { getPropsMap } from './employeeReducer'
 import { employeeSubmit, editSubmit, getAllData, deleteEmployee, getAllUsers } from './employeeAction'
+import { getLoggedUser } from './../authentication/loggedUser/loggedUserAction'
 
 //import css
 import './employee.scss'
@@ -109,39 +110,14 @@ class Employee extends React.Component {
 
     render() {
 
-        const { addSubmit, editSubmit, errorMessdob, isFetching, delData, usersData } = this.props;
+        const { addSubmit, editSubmit, errorMessdob, isFetching, delData, usersData, userData } = this.props;
 
         let employeeIdInput = ''; let employeeFirstNameInput = ''; let employeeLastNameInput = '';
         let dobInput = ''; let designationInput = ''; let joiningDateInput = '';
         let roleInput = ''; let supervisorInput = '';
 
-        // let userdata = [{
-        //     loginId: "100023",
-        //     password: "abc123",
-        //     email: "abhinaw27392@gmail.com",
-        //     firstName: "abhinaw",
-        //     lastName: "shahi",
-        //     dob: "null",
-        //     designation: "tester",
-        //     "joining date": null,
-        //     role: "admin",
-        //     supervisorId: '100035'
-        // },
-        // {
-        //     loginId: "100024",
-        //     password: "abc123",
-        //     email: "abhinaw27392@gmail.com",
-        //     firstName: "abhinaw",
-        //     lastName: "shahi",
-        //     dob: "null",
-        //     designation: "tester",
-        //     "joining date": null,
-        //     role: "manager",
-        //     supervisorId: '100035'
-        // }
-        // ]
 
-        console.log("usersData is:" + JSON.stringify(usersData));
+        console.log("userData is:" + JSON.stringify(userData));
 
 
         // function handledelete() {
@@ -202,7 +178,7 @@ class Employee extends React.Component {
                                     </thead>
                                     <tbody>
                                         {usersData.map((row) => {
-                                            {/* {userdata.map((row) => { */ }
+                            
                                             return <tr className="test">
                                                 <td><Checkbox name={row.id} value = "false" onChange={this.handleInputChange}></Checkbox></td>
                                                 <td><a style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => this.openEditDialog(row)} title="Edit employee info">{row.loginId}</a></td>
@@ -311,15 +287,18 @@ class Employee extends React.Component {
                                     if (empIdUniqueAlert == false) {
                                         if (employeeIdInput.value != '' && employeeFirstNameInput.value != '' && employeeLastNameInput.value != '' &&
                                             dobInput.value != '' && designationInput.value != '' && joiningDateInput.value != '' &&
-                                            roleInput.value != 'select' && supervisorInput.value != 'select') {
+                                            roleInput.value != 'select' && supervisorInput.value != 'select' && userData != null) {
 
-                                            datas = {
+                                                console.log("userData.loginId:"+userData.loginId);
+                                            datas = {    
+                                                id: null,                                         
                                                 loginId: employeeIdInput.value, firstName: employeeFirstNameInput.value,
                                                 lastName: employeeLastNameInput.value, dob: dobInput.value, designation: designationInput.value,
-                                                joiningDate: joiningDateInput.value, role: roleInput.value, supervisorId: supervisorInput.value
+                                                joiningDate: joiningDateInput.value, role: roleInput.value, supervisorId: supervisorInput.value,
+                                                userId: userData.loginId
                                             }
-                                            console.log("added data is:");
-                                            console.log(datas);
+                                            // console.log("added data is:");
+                                            // console.log(datas);
                                             addSubmit(datas);
                                             this.handleClose();
                                         }
@@ -410,7 +389,7 @@ class Employee extends React.Component {
                                     <FormGroup  >
                                         <ControlLabel >Designation:</ControlLabel>&nbsp;
                                     <FormControl type="string" placeholder="enter designation"
-                                            maxLength="20"
+                                            maxLength="30"
                                             inputRef={(ref) => {
                                                 designationInput = ref
                                             }}
@@ -722,6 +701,8 @@ class Employee extends React.Component {
 const mapStateToProps = state => {
     return getPropsMap(state, 'employee');
 }
-const EmployeeHome = connect(mapStateToProps, { getData: getAllData, addSubmit: employeeSubmit, editSubmit: editSubmit, delData: deleteEmployee, getUsers: getAllUsers })(Employee);
+const EmployeeHome = connect(mapStateToProps, { getData: getAllData, addSubmit: employeeSubmit,
+     editSubmit: editSubmit, delData: deleteEmployee,
+      getUsers: getAllUsers, getLoggedUser: getLoggedUser })(Employee);
 export default EmployeeHome;
 

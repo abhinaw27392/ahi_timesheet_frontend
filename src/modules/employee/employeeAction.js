@@ -41,10 +41,9 @@ export function submitError(message) {
 }
 
 export function employeeSubmit(formData) {
-    // console.log("supervisor res:################################################")
-    // console.log(formData.supervisor);
 
     let data = {
+        'id': null,
         'loginId': formData.loginId,
         'firstName': formData.firstName,
         'lastName': formData.lastName,
@@ -54,13 +53,13 @@ export function employeeSubmit(formData) {
         'role': formData.role,
         'supervisorId': formData.supervisorId
     }
-    // console.log("added data is:" + data);
+    console.log("added data is:" + data);
     // window.location.reload();
     return dispatch => {
         dispatch(requestFormData(formData));
 
         return postApi({
-            url: '/ahits/rest/user/adduser',
+            url: '/ahits/rest/user/adduser/'+ formData.userId,
             dispatch,
             data,
             successCallBack: receiveFormData,

@@ -15,6 +15,9 @@ export const PROJECT_DATA_FETCH_SUCCESS = 'PROJECT_DATA_FETCH_SUCCESS';
 export const TIMESHEET_DATA_FETCH_SUCCESS = 'TIMESHEET_DATA_FETCH_SUCCESS';
 export const TIMESHEET_DATA_FETCH_FAILURE = 'TIMESHEET_DATA_FETCH_FAILURE';
 
+export const TASK_DATA_FETCH_SUCCESS = 'TASK_DATA_FETCH_SUCCESS';
+export const TASK_DATA_FETCH_FAILURE = 'TASK_DATA_FETCH_FAILURE';
+
 
 export function fetchError(message) {
     return {
@@ -32,7 +35,7 @@ export function receiveFetch(projectData) {
         type: PROJECT_DATA_FETCH_SUCCESS,
         pending: false,
         logged: true,
-        projectData
+        projectData: projectData
     }
 }
 
@@ -133,7 +136,7 @@ export function getRowTypes(type) {
 export function getProjectData(empId) {
     return dispatch => {
         return getApi({
-            url: 'http://localhost:6090/ahits/api/timesheet/projectData/?empId=' + empId,
+            url: 'http://localhost:6090/ahits/api/timesheet/projectData/' + empId,
             dispatch,
             successCallBack: receiveFetch,
             failureCallback: fetchError
@@ -142,6 +145,38 @@ export function getProjectData(empId) {
     }
 }
 
+    
+export function getTaskData(empId) {
+    return dispatch => {
+        return getApi({
+            url: 'http://localhost:6090/ahits/api/timesheet/taskData/' + empId,
+            dispatch,
+            successCallBack: receiveTaskData,
+            failureCallback: fetchTaskDataError
+        });
+
+    }
+}
+
+export function receiveTaskData(taskData) {
+    console.log("taskData is: " + JSON.stringify(taskData));
+
+    return {
+        type: TASK_DATA_FETCH_SUCCESS,
+        pending: false,
+        logged: true,
+        taskData: taskData
+    }
+}
+
+export function fetchTaskDataError(message) {
+    return {
+        type: TASK_DATA_FETCH_FAILURE,
+        pending: false,
+        logged: false,
+        errorMessage: message
+    }
+}
 
 
 export function fetchDataError(message) {
@@ -176,21 +211,29 @@ export function getAllData(empId, fromDate, toDate) {
 export function getTimesheetData(timesheetData) {
     console.log(timesheetData);
     let myMap = new Map();
+
     timesheetData.map((res) => {
-       let  timeSheetValues = [];
+        let timeSheetValues = [];
         timeSheetValues = myMap.get(res.projectName + "-" + res.taskName);
         if (timeSheetValues == null || timeSheetValues == undefined) {
             timeSheetValues = [];
         }
-        timeSheetValues.push({ "date": res.date, "value": res.totalHours });
+        timeSheetValues.push({ "date": res.date, "value": res.totalHours, "id": res.id });
         myMap.set(res.projectName + "-" + res.taskName, timeSheetValues);
     });
+
     console.log("myMap is:");
     console.log(myMap);
+
     return {
         type: TIMESHEET_DATA_FETCH_SUCCESS,
         pending: false,
         logged: true,
         myMap: myMap
     }
+}
+
+export function makeRowCountZero() {
+    rowCount = 0;
+    rowCountArr.length = 0;
 }
