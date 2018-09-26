@@ -40,9 +40,9 @@ class Employee extends React.Component {
     componentDidMount() {
         this.props.getUsers();
     }
-    // componentWillReceiveProps() {
-    //     this.props.getUsers();
-    // }
+    componentWillReceiveProps() {
+        this.props.getUsers();
+    }
 
     openDialog = () => {
         this.setState({ isDialogOpen: true, isShowPdob: false, isEditDialogOpen: false });
@@ -163,7 +163,7 @@ class Employee extends React.Component {
                                     <thead>
                                         {
                                             <tr>
-                                                <th><ControlLabel>Select</ControlLabel></th>
+                                                {/* <th><ControlLabel>Select</ControlLabel></th> */}
                                                 <th><ControlLabel >EmpId</ControlLabel></th>
                                                 <th><ControlLabel>FirstName</ControlLabel></th>
                                                 <th><ControlLabel>LastName</ControlLabel></th>
@@ -180,7 +180,7 @@ class Employee extends React.Component {
                                         {usersData.map((row) => {
                             
                                             return <tr className="test">
-                                                <td><Checkbox name={row.id} value = "false" onChange={this.handleInputChange}></Checkbox></td>
+                                                {/* <td><Checkbox name={row.id} value = "false" onChange={this.handleInputChange}></Checkbox></td> */}
                                                 <td><a style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => this.openEditDialog(row)} title="Edit employee info">{row.loginId}</a></td>
                                                 <td>{row.firstName}</td>
                                                 <td>{row.lastName}</td>
@@ -539,7 +539,8 @@ class Employee extends React.Component {
                                             loginId: this.editData.loginId, firstName: this.editData.firstName,
                                             lastName: this.editData.lastName, dob: this.editData.dob, designation: this.editData.designation,
                                             // joiningDate: this.editData.joiningDate, role: this.editData.role, supervisorId: this.editData.supervisorId.loginId
-                                            joiningDate: this.editData.joiningDate, role: this.editData.role, supervisorId: this.editData.supervisorId
+                                            joiningDate: this.editData.joiningDate, role: this.editData.role, supervisorId: this.editData.supervisorId,
+                                            userId: userData.loginId
                                         }
                                         console.log("edited data is:");
                                         console.log(datas);

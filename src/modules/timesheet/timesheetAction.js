@@ -68,7 +68,7 @@ export function timesheetSubmit(formData) {
 
     return dispatch => {
         return postApi1({
-            url: 'http://localhost:6090/ahits/api/timesheet/',
+            url: '/ahits/api/timesheet/',
             dispatch,
             data: JSON.stringify(formData),
             successCallBack: receiveFormData,
@@ -133,10 +133,10 @@ export function getRowTypes(type) {
     return typenew;
 }
 
-export function getProjectData(empId) {
+export function getProjectData() {
     return dispatch => {
         return getApi({
-            url: 'http://localhost:6090/ahits/api/timesheet/projectData/' + empId,
+            url: '/ahits/api/timesheet/projectData/',
             dispatch,
             successCallBack: receiveFetch,
             failureCallback: fetchError
@@ -149,7 +149,7 @@ export function getProjectData(empId) {
 export function getTaskData(empId) {
     return dispatch => {
         return getApi({
-            url: 'http://localhost:6090/ahits/api/timesheet/taskData/' + empId,
+            url: '/ahits/api/timesheet/taskData/' + empId,
             dispatch,
             successCallBack: receiveTaskData,
             failureCallback: fetchTaskDataError
@@ -201,7 +201,7 @@ export function receiveAllData(timesheetData) {
 export function getAllData(empId, fromDate, toDate) {
     return dispatch => {
         return getApi({
-            url: "http://localhost:6090/ahits/api/timesheet/fetchData/" + empId + "?fromDate=" + fromDate + "&toDate=" + toDate,
+            url: "/ahits/api/timesheet/fetchData/" + empId + "?fromDate=" + fromDate + "&toDate=" + toDate,
             dispatch,
             successCallBack: getTimesheetData,
             failureCallback: fetchDataError

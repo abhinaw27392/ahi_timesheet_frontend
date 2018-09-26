@@ -139,13 +139,13 @@ export function requestFetch() {
     }
 }
 
-export function getAllData() {
+export function getAllData(empId) {
     return dispatch => {
 
         // dispatch(requestFetch())
 
         return getApi({
-            url: '/ahits/api/tasks/all',
+            url: '/ahits/api/tasks/all/' + empId,
             dispatch,
             successCallBack: receiveFetch,
             failureCallback: fetchError

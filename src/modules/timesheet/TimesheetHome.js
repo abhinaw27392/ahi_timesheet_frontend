@@ -64,7 +64,7 @@ class TimeSheet extends React.Component {
     if (this.props.userData != null) {
       console.log("this.props.userData.id:" + this.props.userData.id);
       this.props.getAllData(this.props.userData.id, datefirst, datelast);
-      this.props.getProjectData(this.props.userData.id);
+      this.props.getProjectData();
       this.props.getTaskData(this.props.userData.id);
     }
   }
@@ -103,10 +103,12 @@ class TimeSheet extends React.Component {
   }
 
   prevDate() {
-    // makeRowCountZero();
-    // addRow.length = 0;
+    makeRowCountZero();
+    rowcount = 0;
+    counter = 0;
+    addRow.length = 0;
     dateArr.length = 0;
-    console.log("prev ctr: " + ctr);
+    
 
     if (ctr > 14) {
       disable = true;
@@ -118,11 +120,18 @@ class TimeSheet extends React.Component {
       dateDatas = displayDates();
       this.forceUpdate();
     }
+
+    if(this.props.myMap != null ) {
+      ctr3 = 1;
+    }
   }
 
   nextDate() {
-    // makeRowCountZero();
-    // addRow.length = 0;
+    makeRowCountZero();
+    rowcount = 0;
+    counter = 0;
+    addRow.length = 0;
+    // addRow = this.getNewRow();
     dateArr.length = 0;
 
     if (ctr < 14) {
@@ -133,6 +142,10 @@ class TimeSheet extends React.Component {
       disable = false;
       dateDatas = displayNextDates();
       this.forceUpdate();
+    }
+
+    if(this.props.myMap != null ) {
+      ctr3 = 1;
     }
   }
 
@@ -154,9 +167,7 @@ class TimeSheet extends React.Component {
     if (myMap != undefined && myMap.size == 0) {
       addRowShow = true;
     }
-    // if (myMap != undefined && myMap.size > 0) {
-    //   addRowShow = false;
-    // }
+
 
     if (myMap != null) {
       keyArr.length = 0;
@@ -167,7 +178,7 @@ class TimeSheet extends React.Component {
     }
 
 
-    if (ctr3 == 1) {
+    if (ctr3 == 1 && myMap != null && myMap.size == 0) {
       addRow = this.getNewRow();
       ctr3 = 2;
     }
@@ -307,30 +318,30 @@ class TimeSheet extends React.Component {
             }
           }
 
-          if(fdata.projectName != "select" && fdata.taskName != "select" ) {
+          if (fdata.projectName != "select" && fdata.taskName != "select") {
 
             for (i = 0; i < 7; i++) {
               let data = {}
-  
-              if (fdata[i] != undefined && (""+fdata[i]+"") != ""  && userData != null) {
-                console.log("fdata is:"+""+fdata[i]+"");
+
+              if (fdata[i] != undefined && ("" + fdata[i] + "") != "" && userData != null) {
+                console.log("fdata is:" + "" + fdata[i] + "");
                 if (fdata[i] < 0) {
                   dataArr.length = 0;
                   dataCount = 1;
                   alert("data must be greater then or equal to zero");
                   break;
                 }
-  
+
                 else if (fdata[i] >= 10) {
                   dataArr.length = 0;
                   dataCount = 1;
                   alert("data must be less than working hours");
                   break;
                 }
-  
+
                 else {
-                    
-                    data.id = idArr[k];
+
+                  data.id = idArr[k];
                   k++;
                   data.projectName = fdata.projectName;
                   data.taskName = fdata.taskName;
@@ -338,20 +349,20 @@ class TimeSheet extends React.Component {
                   data.totalHours = fdata[i];
                   data.empId = userData.id;
                   dataArr.push(data);
-                  
-                  
-  
+
+
+
                 }
-  
+
               }
-  
+
             }
           }
           else {
             alert("projectName/taskName should not be select");
             dataCount = 1;
           }
-         
+
 
           projectTaskData.push(fdata.projectName + "-" + fdata.taskName);
         });
@@ -399,9 +410,9 @@ class TimeSheet extends React.Component {
               {/* -------------------------------------------------edited text fields in table body----------------------------------------------- */}
 
 
-              {myMap != null && 
+              {myMap != null &&
                 keyArr.map((key) => {
-
+                  console.log("rowcount in edited form:" + rowcount + '   ' + "keyArr.length:" + keyArr.length);
                   showSubmit = true;
                   rowcount++;
 
@@ -411,7 +422,7 @@ class TimeSheet extends React.Component {
                     taskName = projectTaskName[1];
                     columnCount = 0;
                   }
-                  console.log("row executing counts");
+
                   return <tr>
                     <td>
                       {rowcount == keyArr.length && counter == 0 &&
@@ -501,21 +512,28 @@ class TimeSheet extends React.Component {
                 })
               }
 
-              {/* ---------------------------------------------Empty text field in table body-------------------------------------------------- */}
+              {/* ---------------------------------------------Empty row in table body-------------------------------------------------- */}
 
 
-              {myMap != null && addRowShow == true &&
+              {myMap != null && addRowShow == true && 
 
                 addRow.map((rowcount) => {
+                  console.log("rowcount:" + rowcount + '  ' + "addRow.length" + addRow.length);
+
                   showSubmit = false;
                   return <tr>
                     <td>
                       {myMap.size == 0 && rowcount == addRow.length &&
                         <button type="button" className="btn btn-info" onClick={this.getNewRow} >+</button>
                       }
-                      {rowcount - 1 == addRow.length &&
+                      {rowcount - 1 == addRow.length && myMap.size == 0 &&
                         <button type="button" className="btn btn-info" onClick={this.getNewRow} >+</button>
                       }
+                      {rowcount == addRow.length && myMap.size != 0 &&
+                        <button type="button" className="btn btn-info" onClick={this.getNewRow} >+</button>
+                      }
+
+                      {/* <button type="button" className="btn btn-info" onClick={this.getNewRow} >+</button> */}
 
                     </td>
                     <td>
@@ -575,9 +593,17 @@ class TimeSheet extends React.Component {
                       {myMap.size == 0 && rowcount == addRow.length && rowcount > 1 &&
                         <button type="button" className="btn btn-danger" onClick={this.reduceOneRow} >-</button>
                       }
-                      {rowcount > 1 && rowcount - 1 == addRow.length &&
+                      {rowcount > 1 && rowcount - 1 == addRow.length && myMap.size == 0 &&
                         <button type="button" className="btn btn-danger" onClick={this.reduceOneRow} >-</button>
                       }
+                      {rowcount == addRow.length && myMap.size != 0 &&
+                        <button type="button" className="btn btn-danger" onClick={this.reduceOneRow} >-</button>
+                      }
+                      {/* {projectNameInput.length == (addRow.length + myMap.size) && 
+                        <button type="button" className="btn btn-danger" onClick={this.reduceOneRow} >-</button>
+                      } */}
+
+
                     </td>
                   </tr>
                 })

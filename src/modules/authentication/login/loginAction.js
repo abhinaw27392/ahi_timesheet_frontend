@@ -34,7 +34,7 @@ export function receiveLogin() {
     type: LOGIN_SUCCESS,
     isFetching: false,
     isAuthenticated: true,
-    showErrorMessage:false
+    showErrorMessage: false
   }
 }
 

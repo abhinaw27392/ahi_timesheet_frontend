@@ -87,7 +87,7 @@ export function editSubmit(formData) {
         dispatch(requestFormData(formData));
 
         return postApi({
-            url: '/ahits/rest/user/adduser',
+            url: '/ahits/rest/user/adduser/'+ formData.userId,
             dispatch,
             data,
             successCallBack: receiveFormData,

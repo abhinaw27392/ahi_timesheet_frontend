@@ -23,10 +23,9 @@ let usernameAlert = false; let passwordAlert = false;
 class LoginComponent extends React.Component {
 
 
-
     render() {
         let usernameInput, passwordInput;
-        const { errorMessage, onLogin, isAuthenticated, location } = this.props;
+        const { errorMessage, onLogin, isAuthenticated, location, showErrorMessage } = this.props;
         const backgroundStyle = {
             backgroundImage: `url(${Background})`
         };
@@ -59,28 +58,30 @@ class LoginComponent extends React.Component {
                                 onLogin(creds);
                             }
                             else if (usernameInput.value == '') {
-                                console.log("usernameAlert is executing");
                                 usernameAlert = true;
+                                console.log("usernameAlert is executing");
+                                
                             }
                             else if (passwordInput.value == '') {
-                                console.log("passwordAlert is executing");
                                 passwordAlert = true;
+                                console.log("passwordAlert is executing");
+                                
                             }
-                            
+                            this.forceUpdate();
                         }
                         }>
 
                             <span className='text-center ahi-login-title-text'><h4>User Login</h4></span>
 
                             <FormGroup >
-                                {errorMessage ? (<Alert bsStyle="danger"><strong>Error!</strong> {errorMessage}</Alert>) : null}
+                                {showErrorMessage ? (<Alert bsStyle="danger">username/password is incorrect!</Alert>) : console.log("showErrorMessage:"+showErrorMessage)}
                             </FormGroup>
 
                             <FormGroup >
-                                {usernameAlert ? (<Alert bsStyle="danger" >Please Enter username!</Alert>) : null}
+                                {usernameAlert ? (<Alert bsStyle="danger" >Please Enter username!</Alert>) : console.log("usernameAlert:"+usernameAlert)}
                             </FormGroup>
                             <FormGroup >
-                                {passwordAlert ? (<Alert bsStyle="danger" >Please Enter password!</Alert>) : null}
+                                {passwordAlert ? (<Alert bsStyle="danger" >Please Enter password!</Alert>) : console.log("passwordAlert:"+passwordAlert)}
                             </FormGroup>
 
                             <FormGroup controlId="formHorizontalUsername">
