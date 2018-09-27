@@ -16,6 +16,7 @@ import { getPropsMap } from '../authenticationReducer'
 // import css
 import './Login.scss';
 import Background from './timesheet.png';
+import AHILogo from './logof1.jpg';
 /*
  * 
  */
@@ -41,73 +42,75 @@ class LoginComponent extends React.Component {
         }
 
         return (
+            <div>
+                <img className = "ahi-login-page-logo"  src={AHILogo}  alt="ahi-logo" />
+                <div className='ahi-login-center-view-container'>
+                    <Col lg={4} lgOffset={4} sm={12} xs={12}>
+                        <Col lg={10} lgOffset={2} sm={4} smOffset={4}>
+                            <Form className="ahi-login-box" onSubmit={(e) => {
+                                e.preventDefault();
+                                let creds = ''; usernameAlert = false; passwordAlert = false;
 
+                                usernameInput.value = trim(usernameInput.value);
+                                passwordInput.value = trim(passwordInput.value);
 
-            <div className='ahi-login-center-view-container'>
-                <Col lg={4} lgOffset={4} sm={12} xs={12}>   
-                    <Col lg={10} lgOffset={2} sm={4} smOffset={4}>
-                        <Form className="ahi-login-box" onSubmit={(e) => {
-                            e.preventDefault();
-                            let creds ='';usernameAlert = false; passwordAlert = false;
+                                if (usernameInput.value != '' && passwordInput.value != '') {
+                                    creds = { username: usernameInput.value, password: passwordInput.value };
+                                    onLogin(creds);
+                                }
+                                else if (usernameInput.value == '') {
+                                    usernameAlert = true;
+                                    console.log("usernameAlert is executing");
 
-                            usernameInput.value = trim(usernameInput.value);
-                            passwordInput.value = trim(passwordInput.value);
+                                }
+                                else if (passwordInput.value == '') {
+                                    passwordAlert = true;
+                                    console.log("passwordAlert is executing");
 
-                            if(usernameInput.value != '' && passwordInput.value != '') {
-                                creds = {username: usernameInput.value, password: passwordInput.value};
-                                onLogin(creds);
+                                }
+                                this.forceUpdate();
                             }
-                            else if (usernameInput.value == '') {
-                                usernameAlert = true;
-                                console.log("usernameAlert is executing");
-                                
-                            }
-                            else if (passwordInput.value == '') {
-                                passwordAlert = true;
-                                console.log("passwordAlert is executing");
-                                
-                            }
-                            this.forceUpdate();
-                        }
-                        }>
+                            }>
 
-                            <span className='text-center ahi-login-title-text'><h4>User Login</h4></span>
 
-                            <FormGroup >
-                                {showErrorMessage ? (<Alert bsStyle="danger">username/password is incorrect!</Alert>) : console.log("showErrorMessage:"+showErrorMessage)}
-                            </FormGroup>
+                                <span className='text-center ahi-login-title-text'><h4>User Login</h4></span>
 
-                            <FormGroup >
-                                {usernameAlert ? (<Alert bsStyle="danger" >Please Enter username!</Alert>) : console.log("usernameAlert:"+usernameAlert)}
-                            </FormGroup>
-                            <FormGroup >
-                                {passwordAlert ? (<Alert bsStyle="danger" >Please Enter password!</Alert>) : console.log("passwordAlert:"+passwordAlert)}
-                            </FormGroup>
+                                <FormGroup >
+                                    {showErrorMessage ? (<Alert bsStyle="danger">username/password is incorrect!</Alert>) : console.log("showErrorMessage:" + showErrorMessage)}
+                                </FormGroup>
 
-                            <FormGroup controlId="formHorizontalUsername">
-                                <FormControl type="username" placeholder="Username" bsStyle="form-rounded"
-                                    inputRef={(ref) => { usernameInput = ref }}
-                                />
-                                <FormControl.Feedback>
-                                    <span className="fa fa-user-o ahi-login-input-feedback-span"></span>
-                                </FormControl.Feedback>
-                            </FormGroup>
+                                <FormGroup >
+                                    {usernameAlert ? (<Alert bsStyle="danger" >Please Enter username!</Alert>) : console.log("usernameAlert:" + usernameAlert)}
+                                </FormGroup>
+                                <FormGroup >
+                                    {passwordAlert ? (<Alert bsStyle="danger" >Please Enter password!</Alert>) : console.log("passwordAlert:" + passwordAlert)}
+                                </FormGroup>
 
-                            <FormGroup controlId="formHorizontalPassword">
-                                <FormControl type="password" placeholder="Password"
-                                    inputRef={(ref) => { passwordInput = ref }} />
-                                <FormControl.Feedback>
-                                    <span className="fa fa-lock ahi-login-input-feedback-span"></span>
-                                </FormControl.Feedback>
-                            </FormGroup>
+                                <FormGroup controlId="formHorizontalUsername">
+                                    <FormControl type="username" placeholder="Username" bsStyle="form-rounded"
+                                        inputRef={(ref) => { usernameInput = ref }}
+                                    />
+                                    <FormControl.Feedback>
+                                        <span className="fa fa-user-o ahi-login-input-feedback-span"></span>
+                                    </FormControl.Feedback>
+                                </FormGroup>
 
-                            <FormGroup>
-                                <Button type="submit" block >Login</Button>
-                            </FormGroup>
+                                <FormGroup controlId="formHorizontalPassword">
+                                    <FormControl type="password" placeholder="Password"
+                                        inputRef={(ref) => { passwordInput = ref }} />
+                                    <FormControl.Feedback>
+                                        <span className="fa fa-lock ahi-login-input-feedback-span"></span>
+                                    </FormControl.Feedback>
+                                </FormGroup>
 
-                        </Form>
+                                <FormGroup>
+                                    <Button type="submit" block >Login</Button>
+                                </FormGroup>
+
+                            </Form>
+                        </Col>
                     </Col>
-                </Col>
+                </div>
             </div>
 
         );
