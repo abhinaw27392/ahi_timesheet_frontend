@@ -18,7 +18,7 @@ const App = (props) => {
       {errors && errors.error && <UserErrors />}
       <Header />
       <Main />
-      <Footer />
+      {/* <Footer /> */}
     </div>
 
   )

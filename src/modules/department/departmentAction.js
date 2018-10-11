@@ -54,7 +54,7 @@ export function departmentSubmit(formData) {
         dispatch(requestFormData(formData));
 
         return postApi({
-            url: '/ahits/rest/departments/',
+            url: 'http://localhost:6090/ahits/rest/departments/',
             dispatch,
             data,
             successCallBack: receiveFormData,
@@ -76,7 +76,7 @@ export function editSubmit(formData) {
         dispatch(requestFormData(formData));
 
         return postApi({
-            url: '/ahits/rest/departments/',
+            url: 'http://localhost:6090/ahits/rest/departments/',
             dispatch,
             data,
             successCallBack: receiveFormData,
@@ -87,7 +87,7 @@ export function editSubmit(formData) {
 
 export function deleteDepartment(id) {
     console.log("deleteDepartment is executing");
-    console.log('/ahits/rest/departments/delete?departmentIds=' + id);
+    console.log('http://localhost:6090/ahits/rest/departments/delete?departmentIds=' + id);
 
 
     return dispatch => {
@@ -95,7 +95,7 @@ export function deleteDepartment(id) {
         dispatch(requestFetch())
 
         return getApi({
-            url: '/ahits/rest/departments/delete?departmentIds=' + id,
+            url: 'http://localhost:6090/ahits/rest/departments/delete?departmentIds=' + id,
             dispatch,
             successCallBack: delFetch,
             failureCallback: fetchError
@@ -146,7 +146,7 @@ export function getAllData() {
         dispatch(requestFetch())
 
         return getApi({
-            url: '/ahits/rest/departments/all',
+            url: 'http://localhost:6090/ahits/rest/departments/all',
             dispatch,
             successCallBack: receiveFetch,
             failureCallback: fetchError
@@ -159,7 +159,7 @@ export function getAllUsers() {
         dispatch(requestFetch2())
 
         return getApi({
-            url: '/ahits/rest/user/users',
+            url: 'http://localhost:6090/ahits/rest/user/users',
             dispatch,
             successCallBack: receiveFetch2,
             failureCallback: fetchError2

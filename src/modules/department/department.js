@@ -143,8 +143,8 @@ class Department extends React.Component {
             <div className="container">
 
                 {this.state.isShowPage &&
-                    <div className="panel">
-                        <h1>DEPARTMENT</h1>
+                    <div>
+                        <h1 className="panel panel-heading">DEPARTMENT</h1>
                     </div>
                 }
 
@@ -214,7 +214,7 @@ class Department extends React.Component {
                     </div>
                 }
                 {this.state.isDialogOpen &&
-                    <div className="panel">
+                    <div >
                         {this.state.isDialogOpen &&
                             <div className="panel panel-blur">
                                 <Form className="ahi-department-form" id="ahi-department-form" onSubmit={(e) => {
@@ -320,7 +320,7 @@ class Department extends React.Component {
                     </div>
                 }
                 {this.state.isEditDialogOpen &&
-                    <div className="panel">
+                    <div >
                         {this.state.isEditDialogOpen &&
                             <div className="panel panel-blur">
                                 <Form className="ahi-department-form" id="ahi-department-edit-form" onSubmit={(e) => {

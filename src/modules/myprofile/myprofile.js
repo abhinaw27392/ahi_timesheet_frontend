@@ -20,7 +20,7 @@ export const myprofilecomponent = ({ userData }) => (
 
   <div className="container">
 
-    <div className="panel">
+    <div>
       {
         <div>
           <h1 className="panel panel-heading">My Profile</h1>

@@ -35,8 +35,8 @@ th,td {
 
 
     
-$default: rgba(#000000, 0.2);
-$default-text: #ffffff;
+$default: rgba(#000000, 0.03);
+$default-text: #333;
 $panel-title-height: 44px;
 $panel-heading-font-size: 16px;
 
@@ -72,15 +72,15 @@ $default-animation-style: ease-out;
 a{
     text-decoration-line: none;
     text-decoration-style: none;
-    color: white;
+    color: #333;
     cursor: pointer;
 
     &:hover{
-        color:black;
+        color:blue;
     }
 }
 .panel {
-    @include scrollbars(.4em, rgba(0, 0, 0, 0.6), rgba(255, 255, 255, 0.7));
+    @include scrollbars(.4em, rgba(0, 0, 0, 0), rgba(255, 255, 255, 255));
     color: $default-text;
     background-color: $default;
     border: none;
@@ -120,8 +120,8 @@ a{
   }
 
   .panel.panel-blur {
-    $blurredBgUrl: '../../static/blur-bg-blurred.jpg';
-    background: url($blurredBgUrl);
+    // $blurredBgUrl: '../../static/blur-bg-blurred.jpg';
+    // background: url($blurredBgUrl);
     transition: none;
     background-attachment: fixed;
   }
@@ -143,8 +143,8 @@ a{
 
   .test{
       &:hover{
-          background-color: #55acee !important;
-          color: black !important
+          background-color: #ccc !important;
+          color: #333 !important
       }
   }
 // .panel {

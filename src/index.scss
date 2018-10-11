@@ -1,7 +1,7 @@
 $font-family: 'Roboto', sans-serif;
 $resMin: 320px;
 @mixin main-background() {
-    $mainBgUrl: './static/blur-bg.jpg';
+    // $mainBgUrl: './static/blur-bg.jpg';
   
     &::before {
       content: '';
@@ -10,9 +10,10 @@ $resMin: 320px;
       height: 100%;
       top: 0;
       left: 0;
-      background: url($mainBgUrl) no-repeat center center;
+      // background: url($mainBgUrl) no-repeat center center;
+      background-color: rgba(#000000, 0.01);
       background-size: cover;
-      will-change: transform;
+      // will-change: transform;
       z-index: -1;
     }
   }
@@ -20,6 +21,7 @@ $resMin: 320px;
 html {
     position: relative;
     min-width: 320px;
+    
   }
 
   html, body {
@@ -29,6 +31,6 @@ html {
   
   body {
     font: 14px/16px $font-family;
-    color: white;
+    // color: white;
     @include main-background();
   }

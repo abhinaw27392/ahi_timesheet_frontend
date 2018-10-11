@@ -54,7 +54,7 @@ export function projectsSubmit(formData) {
         dispatch(requestFormData(formData));
 
         return postApi({
-            url: '/ahits/rest/projects/',
+            url: 'http://localhost:6090/ahits/api/projects/',
             dispatch,
             data,
             successCallBack: receiveFormData,
@@ -76,7 +76,7 @@ export function editSubmit(formData) {
         dispatch(requestFormData(formData));
 
         return postApi({
-            url: '/ahits/rest/projects/',
+            url: 'http://localhost:6090/ahits/api/projects/',
             dispatch,
             data,
             successCallBack: receiveFormData,
@@ -87,7 +87,7 @@ export function editSubmit(formData) {
 
 export function deleteProject(id) {
     console.log("deleteProject is executing");
-    console.log('/ahits/rest/projects/delete?projectIds=' + id);
+    console.log('/ahits/api/projects/delete?projectIds=' + id);
 
 
     return dispatch => {
@@ -95,7 +95,7 @@ export function deleteProject(id) {
         dispatch(requestFetch())
 
         return getApi({
-            url: '/ahits/rest/projects/delete?projectIds=' + id,
+            url: 'http://localhost:6090/ahits/api/projects/delete?projectIds=' + id,
             dispatch,
             successCallBack: delFetch,
             failureCallback: fetchError
@@ -146,7 +146,7 @@ export function getAllData() {
         dispatch(requestFetch())
 
         return getApi({
-            url: '/ahits/rest/projects/all',
+            url: 'http://localhost:6090/ahits/api/projects/all',
             dispatch,
             successCallBack: receiveFetch,
             failureCallback: fetchError
@@ -159,7 +159,7 @@ export function getAllUsers() {
         dispatch(requestFetch2())
 
         return getApi({
-            url: '/ahits/rest/user/users',
+            url: 'http://localhost:6090/ahits/rest/user/users',
             dispatch,
             successCallBack: receiveFetch2,
             failureCallback: fetchError2

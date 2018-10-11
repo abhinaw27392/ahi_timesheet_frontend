@@ -53,7 +53,7 @@ export function tasksSubmit(formData) {
         dispatch(requestFormData(formData));
 
         return postApi({
-            url: '/ahits/api/tasks/',
+            url: 'http://localhost:6090/ahits/api/tasks/',
             dispatch,
             data,
             successCallBack: receiveFormData,
@@ -75,7 +75,7 @@ export function editSubmit(formData) {
         dispatch(requestFormData(formData));
 
         return postApi({
-            url: '/ahits/api/tasks/',
+            url: 'http://localhost:6090/ahits/api/tasks/',
             dispatch,
             data,
             successCallBack: receiveFormData,
@@ -94,7 +94,7 @@ export function deleteTask(id) {
         dispatch(requestFetch())
 
         return getApi({
-            url: '/ahits/api/tasks/delete?taskIds=' + id,
+            url: 'http://localhost:6090/ahits/api/tasks/delete?taskIds=' + id,
             dispatch,
             successCallBack: delFetch,
             failureCallback: fetchError
@@ -145,7 +145,7 @@ export function getAllData(empId) {
         // dispatch(requestFetch())
 
         return getApi({
-            url: '/ahits/api/tasks/all/' + empId,
+            url: 'http://localhost:6090/ahits/api/tasks/all/' + empId,
             dispatch,
             successCallBack: receiveFetch,
             failureCallback: fetchError

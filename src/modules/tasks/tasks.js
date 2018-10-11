@@ -135,7 +135,7 @@ class Tasks extends React.Component {
             <div className="container">
                 {
                     this.state.isShowPage &&
-                    <div className="panel">
+                    <div>
                         {
                             this.state.isShowPage &&
                             <div>
@@ -195,7 +195,7 @@ class Tasks extends React.Component {
                 }
                 {
                     this.state.isDialogOpen &&
-                    <div className="panel">
+                    <div>
                         {
                             <div>
                                 <h1 className="panel panel-heading">ADD NEW TASK</h1>
@@ -276,7 +276,7 @@ class Tasks extends React.Component {
 
                 {
                     this.state.isEditDialogOpen &&
-                    <div className="panel">
+                    <div >
                         {
                             <div>
                                 <h1 className="panel panel-heading">EDIT TASK</h1>

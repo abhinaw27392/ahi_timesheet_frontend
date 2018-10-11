@@ -55,13 +55,17 @@ export function loginUser(creds) {
 
   data.append('username', creds.username);
   data.append('password', creds.password);
+  // let data = {
+  //   'username': creds.username,
+  //   'password': creds.password
+  // }
   
   return dispatch => {
     // We dispatch requestLogin to kickoff the call to the API
     dispatch(requestLogin(creds))
     
     return postApi({
-                url: '/ahits/login',
+                url: 'http://localhost:6090/ahits/login',
                 dispatch,
                 data,
                 successCallBack: receiveLogin,

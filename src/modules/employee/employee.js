@@ -17,7 +17,7 @@ import Dialog from 'react-dialog'
 
 //import local
 import { getPropsMap } from './employeeReducer'
-import { employeeSubmit, editSubmit, getAllData, deleteEmployee, getAllUsers } from './employeeAction'
+import { employeeSubmit, editSubmit, getAllData, getAllUsers } from './employeeAction'
 import { getLoggedUser } from './../authentication/loggedUser/loggedUserAction'
 
 //import css
@@ -25,8 +25,9 @@ import './employee.scss'
 
 let checkBoxArr = [];
 let employeeIdAlert = false; let empIdUniqueAlert = false; let dobAlert2 = false;
-let employeeFirstNameAlert = false; let employeeLastNameAlert = false; let dobAlert = false;let dobEditAlert = false; let designationAlert = false;
-let joiningDateAlert = false; let roleAlert = false; let supervisorAlert = false;
+let employeeFirstNameAlert = false; let employeeLastNameAlert = false; let dobAlert = false; let dobEditAlert = false; let designationAlert = false;
+let joiningDateAlert = false; let roleAlert = false; let supervisorAlert = false; 
+let locationAlert = false;
 
 class Employee extends React.Component {
     constructor() {
@@ -47,8 +48,9 @@ class Employee extends React.Component {
     openDialog = () => {
         this.setState({ isDialogOpen: true, isShowPdob: false, isEditDialogOpen: false });
         employeeIdAlert = false; empIdUniqueAlert = false; dobAlert2 = false;
-        employeeFirstNameAlert = false; employeeLastNameAlert = false; dobAlert = false;dobEditAlert = false; designationAlert = false;
+        employeeFirstNameAlert = false; employeeLastNameAlert = false; dobAlert = false; dobEditAlert = false; designationAlert = false;
         joiningDateAlert = false; roleAlert = false; supervisorAlert = false;
+        locationAlert = false;
 
     }
 
@@ -59,8 +61,9 @@ class Employee extends React.Component {
         this.setState({ isEditDialogOpen: true, isShowPdob: false, isDialogOpen: false });
         this.editData = row;
         employeeIdAlert = false; empIdUniqueAlert = false; dobAlert2 = false;
-        employeeFirstNameAlert = false; employeeLastNameAlert = false; dobAlert = false; dobEditAlert = false;designationAlert = false;
+        employeeFirstNameAlert = false; employeeLastNameAlert = false; dobAlert = false; dobEditAlert = false; designationAlert = false;
         joiningDateAlert = false; roleAlert = false; supervisorAlert = false;
+        locationAlert = false;
     }
 
 
@@ -95,15 +98,15 @@ class Employee extends React.Component {
     addReset = () => {
         document.getElementById("ahi-employee-form").reset();
         employeeIdAlert = false; empIdUniqueAlert = false; dobAlert2 = false;
-        employeeFirstNameAlert = false; employeeLastNameAlert = false; dobAlert = false;dobEditAlert = false; designationAlert = false;
-        joiningDateAlert = false; roleAlert = false; supervisorAlert = false;
+        employeeFirstNameAlert = false; employeeLastNameAlert = false; dobAlert = false; dobEditAlert = false; designationAlert = false;
+        joiningDateAlert = false; roleAlert = false; supervisorAlert = false; locationAlert = false;
         this.setState({ isDialogOpen: true, isShowPdob: false, isEditDialogOpen: false });
     }
     editReset = () => {
         document.getElementById("ahi-employee-edit-form").reset();
         employeeIdAlert = false; empIdUniqueAlert = false; dobAlert2 = false;
-        employeeFirstNameAlert = false; employeeLastNameAlert = false; dobAlert = false;dobEditAlert = false; designationAlert = false;
-        joiningDateAlert = false; roleAlert = false; supervisorAlert = false;
+        employeeFirstNameAlert = false; employeeLastNameAlert = false; dobAlert = false; dobEditAlert = false; designationAlert = false;
+        joiningDateAlert = false; roleAlert = false; supervisorAlert = false; locationAlert = false;
         this.setState({ isDialogOpen: false, isShowPdob: false, isEditDialogOpen: true });
     }
 
@@ -114,7 +117,7 @@ class Employee extends React.Component {
 
         let employeeIdInput = ''; let employeeFirstNameInput = ''; let employeeLastNameInput = '';
         let dobInput = ''; let designationInput = ''; let joiningDateInput = '';
-        let roleInput = ''; let supervisorInput = '';
+        let roleInput = ''; let supervisorInput = ''; let employeeLocationInput = '';
 
 
         console.log("userData is:" + JSON.stringify(userData));
@@ -139,8 +142,8 @@ class Employee extends React.Component {
             <div className="container">
 
                 {this.state.isShowPdob &&
-                    <div className="panel">
-                        <h1>EMPLOYEE</h1>
+                    <div>
+                        <h1 className="panel panel-heading">EMPLOYEE</h1>
                     </div>
                 }
                 {this.state.isShowPdob &&
@@ -172,13 +175,14 @@ class Employee extends React.Component {
                                                 <th><ControlLabel>JoiningDate</ControlLabel></th>
                                                 <th><ControlLabel>Role</ControlLabel></th>
                                                 <th><ControlLabel>Supervisor</ControlLabel></th>
+                                                <th><ControlLabel>Location</ControlLabel></th>
                                             </tr>
                                         }
 
                                     </thead>
                                     <tbody>
                                         {usersData.map((row) => {
-                            
+
                                             return <tr className="test">
                                                 {/* <td><Checkbox name={row.id} value = "false" onChange={this.handleInputChange}></Checkbox></td> */}
                                                 <td><a style={{ textDecoration: 'underline', cursor: 'pointer' }} onClick={() => this.openEditDialog(row)} title="Edit employee info">{row.loginId}</a></td>
@@ -195,6 +199,7 @@ class Employee extends React.Component {
                                                 {row.supervisorId == null &&
                                                     <td>{row.supervisorId}</td>
                                                 }
+                                                <td>{row.location}</td>
 
                                                 {/* <td>{row.supervisorId}</td> */}
                                             </tr>
@@ -210,21 +215,21 @@ class Employee extends React.Component {
                     </div>
                 }
                 {this.state.isDialogOpen &&
-                    <div className="panel">
-                        <h1>ADD NEW EMPLOYEE</h1>
+                    <div >
+                        <h1 className= "panel panel-heading">ADD NEW EMPLOYEE</h1>
                     </div>
                 }
                 {this.state.isDialogOpen &&
 
-                    <div className="panel">
+                    <div >
                         {this.state.isDialogOpen &&
                             <div className="panel panel-blur">
                                 <Form className="ahi-employee-form" id="ahi-employee-form" onSubmit={(e) => {
                                     e.preventDefault();
                                     let datas = '';
                                     employeeIdAlert = false; empIdUniqueAlert = false; dobAlert2 = false;
-                                    employeeFirstNameAlert = false; employeeLastNameAlert = false; dobAlert = false;dobEditAlert = false; designationAlert = false;
-                                    joiningDateAlert = false; roleAlert = false; supervisorAlert = false;
+                                    employeeFirstNameAlert = false; employeeLastNameAlert = false; dobAlert = false; dobEditAlert = false; designationAlert = false;
+                                    joiningDateAlert = false; roleAlert = false; supervisorAlert = false; locationAlert = false;
 
                                     employeeIdInput.value = trim(employeeIdInput.value);
                                     employeeFirstNameInput.value = trim(employeeFirstNameInput.value);
@@ -234,6 +239,7 @@ class Employee extends React.Component {
                                     joiningDateInput.value = trim(joiningDateInput.value);
                                     roleInput.value = trim(roleInput.value);
                                     supervisorInput.value = trim(supervisorInput.value);
+                                    employeeLocationInput.value = trim(employeeLocationInput.value);
 
 
                                     {
@@ -257,7 +263,7 @@ class Employee extends React.Component {
                                         employeeLastNameAlert = true;
                                         this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false });
                                     }
-                                    else if (dobInput.value == '' ) {
+                                    else if (dobInput.value == '') {
                                         dobAlert = true;
                                         this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false });
                                     }
@@ -283,18 +289,24 @@ class Employee extends React.Component {
                                         supervisorAlert = true;
                                         this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false });
                                     }
+                                    else if (employeeLocationInput.value == '') {
+                                        console.log("location alert is working");
+                                        locationAlert = true;
+                                        this.setState({ isDialogOpen: true, isShowPage: false, isEditDialogOpen: false });
+                                    }
 
                                     if (empIdUniqueAlert == false) {
                                         if (employeeIdInput.value != '' && employeeFirstNameInput.value != '' && employeeLastNameInput.value != '' &&
                                             dobInput.value != '' && designationInput.value != '' && joiningDateInput.value != '' &&
-                                            roleInput.value != 'select' && supervisorInput.value != 'select' && userData != null) {
+                                            roleInput.value != 'select' && supervisorInput.value != 'select' && employeeLocationInput.value != '' && userData != null) {
 
-                                                console.log("userData.loginId:"+userData.loginId);
-                                            datas = {    
-                                                id: null,                                         
+                                            console.log("userData.loginId:" + userData.loginId);
+                                            datas = {
+                                                id: null,
                                                 loginId: employeeIdInput.value, firstName: employeeFirstNameInput.value,
                                                 lastName: employeeLastNameInput.value, dob: dobInput.value, designation: designationInput.value,
                                                 joiningDate: joiningDateInput.value, role: roleInput.value, supervisorId: supervisorInput.value,
+                                                location: employeeLocationInput.value,
                                                 userId: userData.loginId
                                             }
                                             // console.log("added data is:");
@@ -346,6 +358,9 @@ class Employee extends React.Component {
                                     </FormGroup>
                                     <FormGroup >
                                         {supervisorAlert ? (<Alert bsStyle="danger" >Please Enter supervisorId name!</Alert>) : null}
+                                    </FormGroup>
+                                    <FormGroup >
+                                        {locationAlert ? (<Alert bsStyle="danger" >Please Enter your location!</Alert>) : null}
                                     </FormGroup>
                                     {/* ------------------------------------------------------------------------------------------------------- */}
 
@@ -434,6 +449,15 @@ class Employee extends React.Component {
 
                                         </FormControl>
                                     </FormGroup>
+                                    <FormGroup  >
+                                        <ControlLabel >Location:</ControlLabel>&nbsp;
+                                    <FormControl type="string" placeholder="enter your location"
+                                            maxLength="20"
+                                            inputRef={(ref) => {
+                                                employeeLocationInput = ref
+                                            }}
+                                        />
+                                    </FormGroup>
                                     <br />
 
                                     <FormGroup>
@@ -452,7 +476,7 @@ class Employee extends React.Component {
                 }
 
                 {this.state.isEditDialogOpen &&
-                    <div className="panel">
+                    <div className="panel panel-heading">
                         <h1>EDIT EMPLOYEE</h1>
 
                     </div>
@@ -460,7 +484,7 @@ class Employee extends React.Component {
                 {usersData != null &&
                     this.state.isEditDialogOpen &&
 
-                    <div className="panel">
+                    <div >
                         {this.state.isEditDialogOpen &&
                             <div className="panel panel-blur">
                                 <Form className="ahi-employee-form" id="ahi-employee-edit-form" onSubmit={(e) => {
@@ -470,6 +494,7 @@ class Employee extends React.Component {
                                     employeeFirstNameAlert = false; employeeLastNameAlert = false;
                                     dobAlert = false; dobEditAlert = false; designationAlert = false;
                                     joiningDateAlert = false; roleAlert = false; supervisorAlert = false;
+                                    locationAlert = false;
 
                                     if (employeeIdInput.value != '' && trim(employeeIdInput.value) == '') {
                                         console.log("employeeIdInput value is:" + employeeIdInput.value);
@@ -500,6 +525,10 @@ class Employee extends React.Component {
                                         joiningDateAlert = true;
                                         this.setState({ isEditDialogOpen: true, isShowPage: false, isDialogOpen: false });
                                     }
+                                    else if (employeeLocationInput.value != '' && trim(employeeLocationInput.value) == '') {
+                                        locationAlert = true;
+                                        this.setState({ isEditDialogOpen: true, isShowPage: false, isDialogOpen: false });
+                                    }
                                     else {
                                         employeeIdInput.value = trim(employeeIdInput.value);
                                         employeeFirstNameInput.value = trim(employeeFirstNameInput.value);
@@ -507,6 +536,7 @@ class Employee extends React.Component {
                                         dobInput.value = trim(dobInput.value);
                                         designationInput.value = trim(designationInput.value);
                                         joiningDateInput.value = trim(joiningDateInput.value);
+                                        employeeLocationInput.value = trim(employeeLocationInput.value);
 
 
                                         if (employeeIdInput.value != '') {
@@ -534,12 +564,16 @@ class Employee extends React.Component {
                                             // this.editData.supervisorId.loginId = supervisorInput.value;
                                             this.editData.supervisorId = supervisorInput.value;
                                         }
+                                        if (employeeLocationInput.value != '') {
+                                            this.editData.location = employeeLocationInput.value;
+                                        }
                                         datas = {
                                             id: this.editData.id,
                                             loginId: this.editData.loginId, firstName: this.editData.firstName,
                                             lastName: this.editData.lastName, dob: this.editData.dob, designation: this.editData.designation,
                                             // joiningDate: this.editData.joiningDate, role: this.editData.role, supervisorId: this.editData.supervisorId.loginId
                                             joiningDate: this.editData.joiningDate, role: this.editData.role, supervisorId: this.editData.supervisorId,
+                                            location: this.editData.location,
                                             userId: userData.loginId
                                         }
                                         console.log("edited data is:");
@@ -582,6 +616,9 @@ class Employee extends React.Component {
                                         {joiningDateAlert ? (<Alert bsStyle="danger" >Please Enter valid joining date!</Alert>) : null}
                                     </FormGroup>
 
+                                    <FormGroup >
+                                        {locationAlert ? (<Alert bsStyle="danger" >Please Enter valid location!</Alert>) : null}
+                                    </FormGroup>
                                     <FormGroup  >
                                         <ControlLabel >EmpId:</ControlLabel>&nbsp;
                                             <FormControl type="string" placeholder={this.editData.loginId}
@@ -676,6 +713,15 @@ class Employee extends React.Component {
 
                                         </FormControl>
                                     </FormGroup>
+                                    <FormGroup >
+                                        <ControlLabel >Location:</ControlLabel>&nbsp;
+                                            <FormControl type="string" placeholder={this.editData.location}
+                                            maxLength="20"
+                                            inputRef={(ref) => {
+                                                employeeLocationInput = ref
+                                            }}
+                                        />
+                                    </FormGroup>
                                     <br />
 
                                     <FormGroup>
@@ -702,8 +748,10 @@ class Employee extends React.Component {
 const mapStateToProps = state => {
     return getPropsMap(state, 'employee');
 }
-const EmployeeHome = connect(mapStateToProps, { getData: getAllData, addSubmit: employeeSubmit,
-     editSubmit: editSubmit, delData: deleteEmployee,
-      getUsers: getAllUsers, getLoggedUser: getLoggedUser })(Employee);
+const EmployeeHome = connect(mapStateToProps, {
+    getData: getAllData, addSubmit: employeeSubmit,
+    editSubmit: editSubmit, 
+    getUsers: getAllUsers, getLoggedUser: getLoggedUser
+})(Employee);
 export default EmployeeHome;
 

@@ -29,25 +29,26 @@ export const HeaderComponent = ({ userData }) => (
         </div>
         <Navbar.Toggle />
       </Navbar.Header>
-    
-        <Nav >
-          <IndexLinkContainer to="/app" activeHref="active">
-            <NavItem >Home</NavItem>
-          </IndexLinkContainer>
 
-          <LinkContainer to="/app/timesheet" activeHref="active">
-            <NavItem >Timesheet</NavItem>
+      <Nav >
+        <IndexLinkContainer to="/app" activeHref="active">
+          <NavItem >Home</NavItem>
+        </IndexLinkContainer>
+
+        <LinkContainer to="/app/timesheet" activeHref="active">
+          <NavItem >Timesheet</NavItem>
+        </LinkContainer>
+
+        <NavDropdown title="My AH" id="basic-nav-dropdown">
+          <LinkContainer to="/app/mytask">
+            <MenuItem >My Task</MenuItem>
           </LinkContainer>
+          <LinkContainer to="/app/myprofile">
+            <MenuItem >My Profile</MenuItem>
+          </LinkContainer>
+        </NavDropdown>
 
-          <NavDropdown title="My AH" id="basic-nav-dropdown">
-            <LinkContainer to="/app/mytask">
-              <MenuItem >My Task</MenuItem>
-            </LinkContainer>
-            <LinkContainer to="/app/myprofile">
-              <MenuItem >My Profile</MenuItem>
-            </LinkContainer>
-          </NavDropdown>
-
+        {userData != null && userData.role == "admin" ? (
           <NavDropdown title="Admin" id="basic-nav-dropdown">
             <LinkContainer to="/app/admin/department">
               <MenuItem >Department</MenuItem>
@@ -58,10 +59,12 @@ export const HeaderComponent = ({ userData }) => (
             <LinkContainer to="/app/admin/projects">
               <MenuItem >Projects</MenuItem>
             </LinkContainer>
-          </NavDropdown>
-        </Nav>
+          </NavDropdown>) : null}
 
-  {userData ? (
+
+      </Nav>
+
+      {userData ? (
         <Nav pullRight>
           <NavItem>
             <span>

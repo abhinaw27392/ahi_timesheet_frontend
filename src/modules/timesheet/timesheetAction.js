@@ -68,7 +68,7 @@ export function timesheetSubmit(formData) {
 
     return dispatch => {
         return postApi1({
-            url: '/ahits/api/timesheet/',
+            url: 'http://localhost:6090/ahits/api/timesheet/',
             dispatch,
             data: JSON.stringify(formData),
             successCallBack: receiveFormData,
@@ -79,13 +79,11 @@ export function timesheetSubmit(formData) {
 
 export function displayDates() {
     dates.length = 0;
-    type1 = []; type2 = []; type3 = []; type4 = []; type5 = [];
+    type1 = []; 
     let j = ctr;
     if (ctr <= 20) {
         for (let i = j + 6; i >= j; i--) {
             prevDay = new Date(new Date().setDate(new Date().getDate() - i));
-            // prevDay = prevDay.getDate() +"-"+prevDay.getMonth() + "-" + prevDay.getFullYear();
-            // console.log("prevDate:"+prevDay);
             dates.push(prevDay);
             type1.push("a" + i);
             ctr++;
@@ -129,14 +127,14 @@ export function remomeRowFromTable() {
 
 export function getRowTypes(type) {
     let typenew = Array.from(type);
-    // console.log("get rowtypes array:" + typenew);
+    console.log("get rowtypes array:" + typenew);
     return typenew;
 }
 
 export function getProjectData() {
     return dispatch => {
         return getApi({
-            url: '/ahits/api/timesheet/projectData/',
+            url: 'http://localhost:6090/ahits/api/timesheet/projectData/',
             dispatch,
             successCallBack: receiveFetch,
             failureCallback: fetchError
@@ -149,7 +147,7 @@ export function getProjectData() {
 export function getTaskData(empId) {
     return dispatch => {
         return getApi({
-            url: '/ahits/api/timesheet/taskData/' + empId,
+            url: 'http://localhost:6090/ahits/api/timesheet/taskData/' + empId,
             dispatch,
             successCallBack: receiveTaskData,
             failureCallback: fetchTaskDataError
@@ -201,7 +199,7 @@ export function receiveAllData(timesheetData) {
 export function getAllData(empId, fromDate, toDate) {
     return dispatch => {
         return getApi({
-            url: "/ahits/api/timesheet/fetchData/" + empId + "?fromDate=" + fromDate + "&toDate=" + toDate,
+            url: "http://localhost:6090/ahits/api/timesheet/fetchData/" + empId + "?fromDate=" + fromDate + "&toDate=" + toDate,
             dispatch,
             successCallBack: getTimesheetData,
             failureCallback: fetchDataError
@@ -209,7 +207,7 @@ export function getAllData(empId, fromDate, toDate) {
     }
 }
 export function getTimesheetData(timesheetData) {
-    console.log(timesheetData);
+    // console.log(timesheetData);
     let myMap = new Map();
 
     timesheetData.map((res) => {
@@ -222,8 +220,8 @@ export function getTimesheetData(timesheetData) {
         myMap.set(res.projectName + "-" + res.taskName, timeSheetValues);
     });
 
-    console.log("myMap is:");
-    console.log(myMap);
+    // console.log("myMap is:");
+    // console.log(myMap);
 
     return {
         type: TIMESHEET_DATA_FETCH_SUCCESS,

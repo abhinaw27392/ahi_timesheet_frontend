@@ -54,7 +54,7 @@ export function getLoggedUser() {
     dispatch(requestFetch())
 
     return getApi({
-                  url: '/ahits/rest/user/userdetails',
+                  url: 'http://localhost:6090/ahits/rest/user/userdetails',
                   dispatch,
                   successCallBack: receiveFetch,
                   failureCallback: fetchError

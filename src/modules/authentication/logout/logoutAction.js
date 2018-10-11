@@ -45,7 +45,7 @@ export function logoutUser() {
     dispatch(requestLogout())
 
     return postApi({
-                url: '/ahits/logout',
+                url: 'http://localhost:6090/ahits/logout',
                 dispatch,
                 successCallBack: receiveLogout
               });

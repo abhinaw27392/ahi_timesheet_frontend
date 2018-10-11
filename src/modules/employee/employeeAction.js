@@ -1,5 +1,5 @@
 
-import { postApi } from "../common/api"
+import { postApi } from '../common/api';
 import EmployeeHome from "./employee"
 import { getApi } from '../common/api';
 
@@ -51,7 +51,8 @@ export function employeeSubmit(formData) {
         'designation': formData.designation,
         'joiningDate': formData.joiningDate,
         'role': formData.role,
-        'supervisorId': formData.supervisorId
+        'supervisorId': formData.supervisorId,
+        'location' : formData.location
     }
     console.log("added data is:" + data);
     // window.location.reload();
@@ -59,7 +60,7 @@ export function employeeSubmit(formData) {
         dispatch(requestFormData(formData));
 
         return postApi({
-            url: '/ahits/rest/user/adduser/'+ formData.userId,
+            url: 'http://localhost:6090/ahits/rest/user/adduser/'+ formData.userId,
             dispatch,
             data,
             successCallBack: receiveFormData,
@@ -78,7 +79,8 @@ export function editSubmit(formData) {
         'designation': formData.designation,
         'joiningDate': formData.joiningDate,
         'role': formData.role,
-        'supervisorId': formData.supervisorId
+        'supervisorId': formData.supervisorId,
+        'location' : formData.location
     }
     console.log("updated data is:");
     console.log(data);
@@ -87,7 +89,7 @@ export function editSubmit(formData) {
         dispatch(requestFormData(formData));
 
         return postApi({
-            url: '/ahits/rest/user/adduser/'+ formData.userId,
+            url: 'http://localhost:6090/ahits/rest/user/adduser/'+ formData.userId,
             dispatch,
             data,
             successCallBack: receiveFormData,
@@ -96,24 +98,24 @@ export function editSubmit(formData) {
     }
 }
 
-export function deleteEmployee(id) {
-    console.log("deleteEmployee is executing");
-    console.log('/ahits/rest/employees/delete?employeeIds=' + id);
+// export function deleteEmployee(id) {
+//     console.log("deleteEmployee is executing");
+//     console.log('/ahits/rest/employees/delete?employeeIds=' + id);
 
 
-    return dispatch => {
+//     return dispatch => {
 
-        dispatch(requestFetch())
+//         dispatch(requestFetch())
 
-        return getApi({
-            url: '/ahits/rest/employees/delete?employeeIds=' + id,
-            dispatch,
-            successCallBack: delFetch,
-            failureCallback: fetchError
-        });
+//         return getApi({
+//             url: 'http://localhost:6090/ahits/rest/employees/delete?employeeIds=' + id,
+//             dispatch,
+//             successCallBack: delFetch,
+//             failureCallback: fetchError
+//         });
 
-    }
-}
+//     }
+// }
 
 export function delFetch() {
     console.log("delfetch success is executing...........");
@@ -143,6 +145,7 @@ export function fetchError(message) {
     }
 }
 
+
 export function requestFetch() {
     return {
         type: EMPLOYEE_FETCH_REQUEST,
@@ -157,7 +160,7 @@ export function getAllData() {
         dispatch(requestFetch())
 
         return getApi({
-            url: '/ahits/rest/employees/all',
+            url: 'http://localhost:6090/ahits/rest/employees/all',
             dispatch,
             successCallBack: receiveFetch,
             failureCallback: fetchError
@@ -170,7 +173,7 @@ export function getAllUsers() {
         dispatch(requestFetch2())
 
         return getApi({
-            url: '/ahits/rest/user/users',
+            url: 'http://localhost:6090/ahits/rest/user/users',
             dispatch,
             successCallBack: receiveFetch2,
             failureCallback: fetchError2

@@ -53,6 +53,7 @@ export function postApi({ url, dispatch, data, successCallBack, failureCallback 
     dispatch({ type: API_ERROR_RESET, payload: ERROR_RESET_PAYLOAD });
     return axios.post(url, data)
         .then(response => {
+            console.log("data into post api............");
             if (!response.status === 200) {
                 // If there was a problem, we want to
                 // dispatch the error condition
@@ -82,6 +83,9 @@ export function postApi({ url, dispatch, data, successCallBack, failureCallback 
                 let errorObj = { status: error.response.status, errorMsg: error.response.data };
                 dispatch({ type: API_ERROR, error: errorObj });
             }
+
+            
+
 
         })
 

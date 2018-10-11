@@ -54,9 +54,6 @@ class TimeSheet extends React.Component {
     this.nextDate = this.nextDate.bind(this);
     this.getNewRow = this.getNewRow.bind(this);
     this.reduceOneRow = this.reduceOneRow.bind(this);
-    this.state = {
-      myData: null
-    };
   }
 
   componentDidMount() {
@@ -69,19 +66,13 @@ class TimeSheet extends React.Component {
     }
   }
 
-  componentWillReceiveProps() {
-    this.getDateRange();
-    if (this.props.userData != null) {
-      this.props.getAllData(this.props.userData.id, datefirst, datelast);
-    }
-  }
 
   getDateRange() {
-    datefirst = new Date(dateArr[0]);
+    datefirst = new Date(dateDatas[0]);
     dateArrMonth = datefirst.getMonth() + 1;
     datefirst = datefirst.getDate() + "-" + dateArrMonth + "-" + datefirst.getFullYear();
 
-    datelast = new Date(dateArr[dateArr.length - 1]);
+    datelast = new Date(dateDatas[dateDatas.length - 1]);
     dateArrMonth = datelast.getMonth() + 1;
     datelast = datelast.getDate() + "-" + dateArrMonth + "-" + datelast.getFullYear();
   }
@@ -102,58 +93,74 @@ class TimeSheet extends React.Component {
     this.forceUpdate();
   }
 
+
   prevDate() {
+
     makeRowCountZero();
     rowcount = 0;
     counter = 0;
     addRow.length = 0;
     dateArr.length = 0;
-    
+
 
     if (ctr > 14) {
       disable = true;
-      this.forceUpdate();
+
     }
 
     if (ctr <= 14) {
       disable1 = false;
       dateDatas = displayDates();
-      this.forceUpdate();
     }
 
-    if(this.props.myMap != null ) {
+    if (this.props.myMap != null) {
       ctr3 = 1;
     }
+    console.log(dateDatas);
+    this.getDateRange();
+    if (this.props.userData != null) {
+      let timesheetdatas = this.props.getAllData(this.props.userData.id, datefirst, datelast);
+      console.log("timesheetdatas:" + JSON.stringify(timesheetdatas));
+    }
+
+    console.log("datearray is:" + dateArr);
+
   }
 
   nextDate() {
+
     makeRowCountZero();
     rowcount = 0;
     counter = 0;
     addRow.length = 0;
-    // addRow = this.getNewRow();
     dateArr.length = 0;
 
     if (ctr < 14) {
       disable1 = true;
-      this.forceUpdate();
     }
+
     if (ctr >= 14) {
       disable = false;
       dateDatas = displayNextDates();
-      this.forceUpdate();
     }
 
-    if(this.props.myMap != null ) {
-      ctr3 = 1;
+    console.log(dateDatas);
+    this.getDateRange();
+    if (this.props.userData != null) {
+      let timesheetdatas = this.props.getAllData(this.props.userData.id, datefirst, datelast);
+      console.log("timesheetdatas:" + JSON.stringify(timesheetdatas));
     }
+
+    console.log("datearray is:" + dateArr);
   }
 
 
   render() {
 
-    const { handleSubmit, errorMessage, myMap, projectData, taskData, userData } = this.props;
+    const { handleSubmit, errorMessage, myMap, projectData, taskData, userData, getAllData } = this.props;
     let idArr = [];
+
+    taskValueArr.length = 0;
 
     console.log("userData is:" + JSON.stringify(userData));
 
@@ -166,6 +173,7 @@ class TimeSheet extends React.Component {
 
     if (myMap != undefined && myMap.size == 0) {
       addRowShow = true;
+
     }
 
 
@@ -175,6 +183,9 @@ class TimeSheet extends React.Component {
       myMap.forEach((value, key) => {
         keyArr.push(key);
       })
+
+      console.log("keyarr is:");
+      console.log(keyArr);
     }
 
 
@@ -192,6 +203,13 @@ class TimeSheet extends React.Component {
 
       <Form className="ahi-timesheet-form" onSubmit={(e) => {
         e.preventDefault();
+        // ------------------------------------------------getting data for given range of date----------------------
+        // this.getDateRange();
+        // if (this.props.userData != null) {
+        //   let timesheetdatas = this.props.getAllData(this.props.userData.id, datefirst, datelast);
+        //   console.log("timesheetdatas:" + JSON.stringify(timesheetdatas));
+        // }
+
         inputRefs.data.length = 0;
 
         //--------------------------------------data submission for empty fields-----------------------------------------------------
@@ -243,6 +261,8 @@ class TimeSheet extends React.Component {
               }
 
 
+              console.log("taskValueArr is:");
+              console.log(taskValueArr);
               for (n = count, m1 = 0, m2 = 0; n < count + 7; n++ , m1++ , m3++) {
 
                 if (tempArr[m3].value != '' && taskValueArr[m3] == false) {
@@ -264,7 +284,7 @@ class TimeSheet extends React.Component {
 
                   if (taskValueArr[m3] == false) {
                     items1[m1] = "";
-                    console.log("items1[" + m1 + "]:" + items1[m1]);
+                    console.log("items [" + m1 + "]:" + items1[m1]);
                     console.log("taskValueArr is:" + taskValueArr[m3]);
 
                   }
@@ -284,12 +304,16 @@ class TimeSheet extends React.Component {
 
             //-----------------------------------------new row data submission in edited form-----------------------------------------
 
-            let m4 = 0; let n4 = 0; let count4 = 0; let m14 = 0;
+            let m4 = 0; let n4 = 0; let count4 = 0; let m14 = 0; 
 
+            
             for (m4 = 0; m4 < (projectNameInput.length - myMap.size); m4++) {
+
+              console.log("projectNameInput" +( m4 + myMap.size )+":"+ projectNameInput[m4 + myMap.size].value);
+          
               items1 = {};
-              items1.projectName = projectNameInput[m].value;
-              items1.taskName = taskNameInput[m].value;
+              items1.projectName = projectNameInput[m4 + myMap.size].value;
+              items1.taskName = taskNameInput[m4 + myMap.size].value;
 
               for (n4 = count4, m14 = 0; n4 < count4 + 7; n4++ , m14++) {
                 items1[m14] = tempArr[m3].value;
@@ -300,6 +324,8 @@ class TimeSheet extends React.Component {
               inputRefs.data.push(items1);
 
             }
+            console.log("inputrefs:");
+            console.log(inputRefs.data);
           }
 
         }
@@ -309,12 +335,18 @@ class TimeSheet extends React.Component {
 
 
         let dataArr = []; let i = 0; let k = 0; let dataCount = 0; let projectTaskData = [];
-        inputRefs.data.map((fdata) => {
+        projectTaskData.length = 0;
 
+        console.log(inputRefs.data);
+        inputRefs.data.map((fdata) => {
+          
           for (let i = 0; i < projectTaskData.length; i++) {
-            if (projectTaskData[i] == fdata.projectName + "-" + fdata.taskName) {
-              alert("projectName and taskName is repeating");
+
+            if (fdata.projectName != "select" && fdata.taskName != "select" && projectTaskData[i] == fdata.projectName + "-" + fdata.taskName) {
               dataCount = 1;
+              // console.log(projectTaskData);
+              alert("projectName and taskName is repeating");
+
             }
           }
 
@@ -358,28 +390,43 @@ class TimeSheet extends React.Component {
 
             }
           }
-          else {
-            alert("projectName/taskName should not be select");
+          if (fdata.projectName == "select" || fdata.taskName == "select") {
             dataCount = 1;
+            alert("projectName/taskName should not be select");
+
           }
 
 
           projectTaskData.push(fdata.projectName + "-" + fdata.taskName);
+          console.log(projectTaskData);
         });
 
         if (dataArr.length > 0 && dataCount == 0) {
           let isSubmit = window.confirm("Do you really want to submit the form?");
 
           if (isSubmit) {
+            console.log("dataArray is:" + JSON.stringify(dataArr));
+
             handleSubmit(dataArr);
+
+            //-------------------------------for data refresh-----------------------
+            // console.log("datedatas is:");
+            // console.log(dateDatas);
+            // this.getDateRange();
+            // if (userData != null) {
+            //   getAllData(userData.id, datefirst, datelast);
+            // }
+            //---------------------------------------------------------------------
             showSubmit = false; showPlus = false; showMinus = false;
             alert("your data is successfully submitted!");
-            window.location.reload();
+
+            // window.location.reload();
           }
 
           else {
             alert("form submission failed!");
-            window.location.reload();
+
+            // window.location.reload();
           }
         }
 
@@ -390,8 +437,8 @@ class TimeSheet extends React.Component {
           {errorMessage ? (<Alert bsStyle="danger"><strong>Error!</strong> {errorMessage}</Alert>) : null}
         </FormGroup>
         {
-          <Table responsive bordered condensed hover type="number">
-            <thead>
+          <Table responsive hover type="number">
+            <thead className="panel panel-heading">
               <tr>
                 <th><button className="leftShift btn btn-primary" type="button" disabled={disable} title="Prev" onClick={this.prevDate} >>>></button></th>
                 <th >Project</th>
@@ -404,7 +451,7 @@ class TimeSheet extends React.Component {
                 <th><button className="btn btn-primary" type="button" disabled={disable1} title="Next" onClick={this.nextDate} >>>></button></th>
               </tr>
             </thead>
-            <tbody>
+            <tbody >
 
 
               {/* -------------------------------------------------edited text fields in table body----------------------------------------------- */}
@@ -467,6 +514,9 @@ class TimeSheet extends React.Component {
                     </td>
 
                     {type.map(function (name) {
+                      // console.log("type array is:");
+                      // console.log(type);
+
                       taskValue = null;
 
                       for (var v of myMap.get(key)) {
@@ -515,7 +565,7 @@ class TimeSheet extends React.Component {
               {/* ---------------------------------------------Empty row in table body-------------------------------------------------- */}
 
 
-              {myMap != null && addRowShow == true && 
+              {myMap != null && addRowShow == true &&
 
                 addRow.map((rowcount) => {
                   console.log("rowcount:" + rowcount + '  ' + "addRow.length" + addRow.length);
@@ -573,7 +623,7 @@ class TimeSheet extends React.Component {
 
                     {
 
-                      type1.map(function (name) {
+                      type.map(function (name) {
                         return <td >
                           <FormGroup>
 

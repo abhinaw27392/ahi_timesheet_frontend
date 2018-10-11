@@ -140,8 +140,8 @@ class Projects extends React.Component {
             <div className="container">
 
                 {this.state.isShowPage &&
-                    <div className="panel">
-                        <h1>PROJECTS</h1>
+                    <div>
+                        <h1 className="panel panel-heading">PROJECTS</h1>
                     </div>
                 }
 
@@ -205,14 +205,14 @@ class Projects extends React.Component {
 
                 {
                     this.state.isDialogOpen &&
-                    <div className="panel">
+                    <div className="panel panel-heading">
                         <h1>ADD NEW PROJECT</h1>
                     </div>
                 }
 
                 {this.state.isDialogOpen &&
 
-                    <div className="panel">
+                    <div >
                         {this.state.isDialogOpen &&
                             <div className="panel panel-blur">
                                 <Form className="ahi-project-form" id="ahi-project-form" onSubmit={(e) => {
@@ -314,12 +314,12 @@ class Projects extends React.Component {
 
                 {
                     this.state.isEditDialogOpen &&
-                    <div className="panel">
+                    <div className="panel panel-heading">
                         <h1>EDIT PROJECT</h1>
                     </div>
                 }
                 {this.state.isEditDialogOpen &&
-                    <div className="panel">
+                    <div >
                         {this.state.isEditDialogOpen &&
                             <div className="panel panel-blur">
                                 <Form className="ahi-project-form" id="ahi-project-edit-form" onSubmit={(e) => {
